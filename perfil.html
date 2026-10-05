@@ -42,30 +42,30 @@
       overflow-x: hidden;
     }
 
-    /* Cabecera de Pareja */
+    /* Cabecera de Pareja y Estados */
     .couple-header {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 18px;
-      margin: 15px 0 25px;
-      position: relative;
+      gap: 20px;
+      margin: 15px 0 20px;
     }
     .user-profile {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
+      position: relative;
     }
     .avatar-wrapper {
-      width: 75px;
-      height: 75px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       border: 2px solid var(--accent);
       padding: 3px;
       box-shadow: 0 0 20px var(--accent-glow);
       background: var(--card-bg);
-      overflow: hidden;
+      position: relative;
     }
     .avatar-img {
       width: 100%;
@@ -73,24 +73,60 @@
       border-radius: 50%;
       object-fit: cover;
     }
+    .mood-bubble {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      background: #1e293b;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
     .user-name {
       font-size: 0.9rem;
       font-weight: 600;
       color: #e2e8f0;
     }
-    .connector-heart {
+
+    /* Banner Aniversario */
+    .anniversary-banner {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.18), rgba(99, 102, 241, 0.18));
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      border-radius: 20px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      text-align: left;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 2px;
-      animation: float 2.5s infinite ease-in-out;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
     }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+    .banner-title {
+      font-size: 0.78rem;
+      color: #fda4af;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .banner-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: white;
+      margin-top: 2px;
+    }
+    .banner-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
     }
 
-    /* Grilla de Métricas Estilo Tarjetas */
+    /* Grilla de Métricas */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -102,70 +138,33 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 14px 8px;
+      padding: 14px 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
-    .metric-icon {
-      font-size: 1.6rem;
-      margin-bottom: 2px;
-    }
+    .metric-icon { font-size: 1.5rem; }
     .metric-title {
       font-size: 0.68rem;
       color: var(--text-muted);
-      line-height: 1.1;
       font-weight: 500;
+      line-height: 1.1;
     }
     .metric-value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-top: 2px;
-    }
-
-    /* Tarjeta Aniversario Destacada */
-    .anniversary-banner {
-      background: linear-gradient(135deg, rgba(244, 63, 94, 0.18), rgba(99, 102, 241, 0.18));
-      border: 1px solid rgba(244, 63, 94, 0.35);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 20px;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      backdrop-filter: blur(10px);
-    }
-    .banner-title {
-      font-size: 0.8rem;
-      color: #fda4af;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .banner-text {
       font-size: 1.2rem;
       font-weight: 700;
-      color: white;
-      margin-top: 4px;
-    }
-    .banner-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 2px;
+      color: var(--text);
     }
 
-    /* Selector de Estado de Ánimo */
+    /* Selector de Ánimo */
     .mood-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
       padding: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       text-align: left;
     }
     .mood-label {
@@ -183,7 +182,7 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 8px 12px;
+      padding: 8px 10px;
       font-size: 1.25rem;
       cursor: pointer;
       flex: 1;
@@ -196,7 +195,7 @@
       box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    /* Barra Inferior de 3 Pestañas */
+    /* Barra Inferior Fija */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -230,28 +229,28 @@
 </head>
 <body>
 
-  <!-- Pareja y Avatares -->
+  <!-- Cabecera de Pareja con Burbujas de Ánimo en Vivo -->
   <div class="couple-header">
     <div class="user-profile">
       <div class="avatar-wrapper">
-        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Jeremmy" class="avatar-img" alt="Jeremmy" id="avatar-jeremmy">
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Jeremmy" class="avatar-img" alt="Jeremmy">
+        <div class="mood-bubble" id="mood-jeremmy">🥰</div>
       </div>
       <span class="user-name">Jeremmy</span>
     </div>
 
-    <div class="connector-heart">
-      <span style="font-size: 1.8rem;">☁️❤️☁️</span>
-    </div>
+    <div style="font-size: 1.8rem; animation: float 2.5s infinite ease-in-out;">☁️❤️☁️</div>
 
     <div class="user-profile">
       <div class="avatar-wrapper">
-        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Veronica" class="avatar-img" alt="Вероничка" id="avatar-veronica">
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Veronica" class="avatar-img" alt="Вероничка">
+        <div class="mood-bubble" id="mood-veronica">🥰</div>
       </div>
       <span class="user-name">Вероничка</span>
     </div>
   </div>
 
-  <!-- Banner Aniversario: 25 de junio de 2024 -->
+  <!-- Banner Aniversario -->
   <div class="anniversary-banner">
     <div>
       <span class="banner-title">Juntos desde el 25 de junio</span>
@@ -261,7 +260,7 @@
     <div style="font-size: 2.2rem;">💍</div>
   </div>
 
-  <!-- Grilla de Métricas (Inspirada en tu captura) -->
+  <!-- Grilla de Métricas Calculadas -->
   <div class="metrics-grid">
     <div class="metric-card">
       <span class="metric-icon">💞</span>
@@ -271,14 +270,14 @@
 
     <div class="metric-card">
       <span class="metric-icon">💋</span>
-      <span class="metric-title">MissU Toques</span>
+      <span class="metric-title">Toques Totales</span>
       <span class="metric-value" id="total-touches-stat">0</span>
     </div>
 
     <div class="metric-card">
       <span class="metric-icon">🔥</span>
       <span class="metric-title">Racha Amor</span>
-      <span class="metric-value" id="streak-stat">1</span>
+      <span class="metric-value" id="streak-stat">0</span>
     </div>
 
     <div class="metric-card">
@@ -290,29 +289,29 @@
     <div class="metric-card">
       <span class="metric-icon">💖</span>
       <span class="metric-title">Intimidad</span>
-      <span class="metric-value">100%</span>
+      <span class="metric-value" id="intimacy-stat">0%</span>
     </div>
 
     <div class="metric-card">
       <span class="metric-icon">🐾</span>
-      <span class="metric-title">Mascota</span>
-      <span class="metric-value">Lv. 1</span>
+      <span class="metric-title">Sintonía</span>
+      <span class="metric-value" id="sync-level">Nv. 1</span>
     </div>
   </div>
 
-  <!-- Selector de Estado de Ánimo Compartido -->
+  <!-- Selector de Estado de Ánimo -->
   <div class="mood-card">
-    <span class="mood-label">¿Cómo te sientes hoy? (Ella lo verá en vivo)</span>
+    <span class="mood-label">Tu estado actual (se actualiza al instante en su pantalla):</span>
     <div class="mood-row">
-      <button class="mood-btn" onclick="setMood('🥰', this)" title="Enamorado">🥰</button>
-      <button class="mood-btn" onclick="setMood('🥺', this)" title="Te extraño">🥺</button>
-      <button class="mood-btn" onclick="setMood('😴', this)" title="Con sueño">😴</button>
-      <button class="mood-btn" onclick="setMood('✨', this)" title="Feliz">✨</button>
-      <button class="mood-btn" onclick="setMood('🫂', this)" title="Necesito abrazo">🫂</button>
+      <button class="mood-btn" onclick="updateMyMood('🥰', this)">🥰</button>
+      <button class="mood-btn" onclick="updateMyMood('🥺', this)">🥺</button>
+      <button class="mood-btn" onclick="updateMyMood('😴', this)">😴</button>
+      <button class="mood-btn" onclick="updateMyMood('✨', this)">✨</button>
+      <button class="mood-btn" onclick="updateMyMood('🫂', this)">🫂</button>
     </div>
   </div>
 
-  <!-- Barra de Navegación Inferior (3 Pestañas) -->
+  <!-- Barra Inferior -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -335,15 +334,13 @@
 
     let currentOwner = localStorage.getItem('device_owner') || 'Jeremmy';
 
-    // 1. Cálculo del Aniversario: 25 de junio de 2024
+    // 1. Contador de Aniversario (25 de junio de 2024)
     const startDate = new Date('2024-06-25T00:00:00');
 
     function calculateAnniversary() {
       const now = new Date();
-      const diffTime = Math.abs(now - startDate);
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const diffDays = Math.floor(Math.abs(now - startDate) / (1000 * 60 * 60 * 24));
 
-      // Años y meses transcurridos
       let years = now.getFullYear() - startDate.getFullYear();
       let months = now.getMonth() - startDate.getMonth();
       let days = now.getDate() - startDate.getDate();
@@ -362,48 +359,108 @@
       document.getElementById('anniversary-counter').innerText = `${diffDays} días juntos`;
       document.getElementById('anniversary-sub').innerText = `${years} años, ${months} meses y ${days} días`;
 
-      // Días restantes para el próximo 25 de junio
-      let nextAnniv = new Date(now.getFullYear(), 5, 25); // Junio es mes 5 en JavaScript (0-index)
-      if (now > nextAnniv) {
-        nextAnniv = new Date(now.getFullYear() + 1, 5, 25);
-      }
+      let nextAnniv = new Date(now.getFullYear(), 5, 25);
+      if (now > nextAnniv) nextAnniv = new Date(now.getFullYear() + 1, 5, 25);
       const daysToNext = Math.ceil((nextAnniv - now) / (1000 * 60 * 60 * 24));
       document.getElementById('next-aniv-days').innerText = `${daysToNext}d`;
     }
 
     calculateAnniversary();
 
-    // 2. Cargar toques totales acumulados desde Supabase
-    async function loadStats() {
-      const { count } = await supabaseClient
+    // 2. Cálculo real de Racha e Intimidad basado en toques de los últimos 7 días
+    async function loadDynamicMetrics() {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+      const { data: recentPings } = await supabaseClient
+        .from('pings')
+        .select('created_at, sender')
+        .gte('created_at', sevenDaysAgo.toISOString())
+        .order('created_at', { ascending: false });
+
+      const { count: totalCount } = await supabaseClient
         .from('pings')
         .select('*', { count: 'exact', head: true });
 
-      if (count !== null) {
-        document.getElementById('total-touches-stat').innerText = count;
+      if (totalCount !== null) {
+        document.getElementById('total-touches-stat').innerText = totalCount;
+      }
+
+      if (recentPings && recentPings.length > 0) {
+        // Días distintos con actividad en los últimos 7 días
+        const activeDays = new Set(recentPings.map(p => p.created_at.split('T')[0]));
+        const streak = activeDays.size;
+        document.getElementById('streak-stat').innerText = `${streak}d`;
+
+        // Intimidad calculada: interacción cruzada (ambos envían toques)
+        const jeremmyTouches = recentPings.filter(p => p.sender === 'Jeremmy').length;
+        const veronicaTouches = recentPings.filter(p => p.sender !== 'Jeremmy').length;
+        
+        let intimacy = 50;
+        if (jeremmyTouches > 0 && veronicaTouches > 0) {
+          intimacy = Math.min(100, 70 + (streak * 4));
+        } else if (jeremmyTouches > 0 || veronicaTouches > 0) {
+          intimacy = Math.min(80, 50 + (streak * 3));
+        }
+        document.getElementById('intimacy-stat').innerText = `${intimacy}%`;
+        document.getElementById('sync-level').innerText = intimacy > 85 ? 'Nv. Máx' : 'Nv. ' + Math.ceil(intimacy / 25);
+      } else {
+        document.getElementById('streak-stat').innerText = '0d';
+        document.getElementById('intimacy-stat').innerText = '40%';
       }
     }
-    loadStats();
 
-    // 3. Guardar estado de ánimo
-    function setMood(emoji, btn) {
-      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      localStorage.setItem('my_mood', emoji);
+    loadDynamicMetrics();
 
-      // Notificación rápida a Supabase
-      supabaseClient.from('pings').insert([{ 
-        sender: currentOwner, 
-        created_at: new Date().toISOString() 
-      }]);
+    // 3. Sincronización en Vivo del Estado de Ánimo
+    async function fetchMoods() {
+      const { data } = await supabaseClient.from('couple_status').select('*');
+      if (data) {
+        data.forEach(item => {
+          if (item.user_name.toLowerCase().includes('jeremmy')) {
+            document.getElementById('mood-jeremmy').innerText = item.mood;
+            if (currentOwner === 'Jeremmy') highlightButton(item.mood);
+          } else {
+            document.getElementById('mood-veronica').innerText = item.mood;
+            if (currentOwner === 'Verónica') highlightButton(item.mood);
+          }
+        });
+      }
     }
 
-    const savedMood = localStorage.getItem('my_mood');
-    if (savedMood) {
+    function highlightButton(mood) {
       document.querySelectorAll('.mood-btn').forEach(b => {
-        if (b.innerText === savedMood) b.classList.add('active');
+        if (b.innerText === mood) b.classList.add('active');
+        else b.classList.remove('active');
       });
     }
+
+    async function updateMyMood(emoji, btn) {
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const targetUser = currentOwner === 'Jeremmy' ? 'Jeremmy' : 'Verónica';
+
+      await supabaseClient.from('couple_status').upsert({
+        user_name: targetUser,
+        mood: emoji,
+        last_active: new Date().toISOString()
+      });
+    }
+
+    fetchMoods();
+
+    // Suscripción WebSocket a cambios de ánimo en tiempo real
+    supabaseClient.channel('mood-live-channel')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'couple_status' }, (payload) => {
+        const item = payload.new;
+        if (item.user_name.toLowerCase().includes('jeremmy')) {
+          document.getElementById('mood-jeremmy').innerText = item.mood;
+        } else {
+          document.getElementById('mood-veronica').innerText = item.mood;
+        }
+      })
+      .subscribe();
   </script>
 </body>
 </html>
