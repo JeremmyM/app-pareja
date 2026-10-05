@@ -7,13 +7,14 @@
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
       --bg: #070a13;
-      --card-bg: rgba(19, 27, 46, 0.75);
-      --card-border: rgba(255, 255, 255, 0.08);
+      --card-bg: rgba(19, 27, 46, 0.85);
+      --card-border: rgba(255, 255, 255, 0.12);
       --accent: #f43f5e;
       --text: #f8fafc;
       --text-muted: #94a3b8;
@@ -26,24 +27,28 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
-    body {
+    html, body {
+      height: 100%;
+      height: 100dvh; /* Altura dinámica exacta en iOS y Android */
+      overflow: hidden;
       background-color: var(--bg);
       color: var(--text);
-      min-height: 100vh;
+    }
+    body {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: env(safe-area-inset-top, 42px) 18px calc(env(safe-area-inset-bottom, 20px) + 75px);
-      text-align: center;
-      overflow: hidden;
+      padding: env(safe-area-inset-top, 40px) 16px 0 16px;
+      position: relative;
     }
 
+    /* Barra Superior */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
-      margin-bottom: 12px;
+      height: 38px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
     }
     .presence-badge {
       display: inline-flex;
@@ -51,9 +56,9 @@
       gap: 8px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
     .presence-dot {
       width: 7px;
@@ -63,72 +68,108 @@
       box-shadow: 0 0 8px #10b981;
     }
 
+    /* Contenedor Principal de la Pizarra */
     .board-container {
-      width: 100%;
       flex: 1;
-      background: #090d16;
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
       display: flex;
       flex-direction: column;
+      background: #0b1120;
+      border: 1.5px solid rgba(244, 63, 94, 0.25); /* Borde distinguible */
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      margin-bottom: 10px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: calc(75px + env(safe-area-inset-bottom, 15px)); /* Espacio libre exacto sobre la barra inferior */
+      position: relative;
     }
+
+    /* Canvas táctil */
     #draw-canvas {
-      width: 100%;
       flex: 1;
-      touch-action: none;
-      background: #090d16;
+      width: 100%;
+      background: #060911;
+      touch-action: none; /* Bloquea el scroll del móvil mientras dibujas */
       cursor: crosshair;
     }
+
+    /* Barra de Herramientas */
     .board-controls {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 16px;
-      background: var(--card-bg);
+      padding: 8px 12px;
+      background: #111827;
       border-top: 1px solid var(--card-border);
+      flex-shrink: 0;
+      gap: 8px;
     }
+
     .color-picker-row {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
     }
     .color-circle {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       border: 2px solid transparent;
       cursor: pointer;
+      transition: transform 0.15s ease;
     }
     .color-circle.active {
-      border-color: white;
-      transform: scale(1.15);
+      border-color: #ffffff;
+      transform: scale(1.2);
     }
-    .board-btn {
+
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stroke-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       color: var(--text);
-      padding: 8px 14px;
-      border-radius: 12px;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.8rem;
       cursor: pointer;
     }
 
+    .clear-btn {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #fda4af;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .clear-btn:active {
+      transform: scale(0.94);
+    }
+
+    /* Barra Inferior Fija */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       height: 65px;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(16px);
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding-bottom: env(safe-area-inset-bottom, 5px);
-      z-index: 50;
+      z-index: 100;
     }
     .nav-item {
       background: none;
@@ -137,7 +178,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       font-size: 0.75rem;
       text-decoration: none;
       width: 50%;
@@ -148,16 +189,19 @@
 </head>
 <body>
 
+  <!-- Barra Superior -->
   <div class="top-bar">
     <div class="presence-badge">
       <div class="presence-dot"></div>
       <span id="user-display">Pizarra Compartida</span>
     </div>
-    <span style="font-size: 0.75rem; color: #94a3b8;" id="board-status">Sincronizado</span>
+    <span style="font-size: 0.72rem; color: #94a3b8;" id="board-status">En vivo</span>
   </div>
 
+  <!-- Contenedor Pizarra -->
   <div class="board-container">
     <canvas id="draw-canvas"></canvas>
+    
     <div class="board-controls">
       <div class="color-picker-row">
         <div class="color-circle active" style="background: #f43f5e;" onclick="setColor('#f43f5e', this)"></div>
@@ -165,12 +209,15 @@
         <div class="color-circle" style="background: #facc15;" onclick="setColor('#facc15', this)"></div>
         <div class="color-circle" style="background: #ffffff;" onclick="setColor('#ffffff', this)"></div>
       </div>
-      <div style="display: flex; gap: 8px;">
-        <button class="board-btn" onclick="clearCanvas(true)">🗑️️ Borrar</button>
+
+      <div class="action-group">
+        <button class="stroke-btn" onclick="toggleLineWidth(this)" title="Grosor de trazo">●</button>
+        <button class="clear-btn" onclick="clearCanvas(true)">🗑 Borrar</button>
       </div>
     </div>
   </div>
 
+  <!-- Barra de Navegación Inferior -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -191,18 +238,28 @@
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
     let currentColor = '#f43f5e';
+    let currentLineWidth = 4;
     let lastX = 0;
     let lastY = 0;
 
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
+      if (canvas.width !== rect.width || canvas.height !== rect.height) {
+        // Preserva el contenido existente si el teclado o barra cambia el tamaño
+        let temp;
+        if (canvas.width > 0 && canvas.height > 0) {
+          temp = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        }
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        if (temp) ctx.putImageData(temp, 0, 0);
+      }
     }
     window.addEventListener('resize', resizeCanvas);
-    setTimeout(resizeCanvas, 50);
+    window.addEventListener('orientationchange', resizeCanvas);
+    setTimeout(resizeCanvas, 80);
 
     function setColor(color, elem) {
       currentColor = color;
@@ -210,7 +267,17 @@
       elem.classList.add('active');
     }
 
-    // WebSockets Broadcast en tiempo real
+    function toggleLineWidth(btn) {
+      if (currentLineWidth === 4) {
+        currentLineWidth = 9;
+        btn.innerText = '⬤';
+      } else {
+        currentLineWidth = 4;
+        btn.innerText = '●';
+      }
+    }
+
+    // Canal WebSockets Broadcast en tiempo real
     const channel = supabaseClient.channel('whiteboard-live', {
       config: { broadcast: { self: false } }
     });
@@ -219,7 +286,7 @@
       .on('broadcast', { event: 'draw' }, ({ payload }) => {
         const w = canvas.width;
         const h = canvas.height;
-        drawStroke(payload.x0 * w, payload.y0 * h, payload.x1 * w, payload.y1 * h, payload.color, false);
+        drawStroke(payload.x0 * w, payload.y0 * h, payload.x1 * w, payload.y1 * h, payload.color, payload.width || 4, false);
       })
       .on('broadcast', { event: 'clear' }, () => {
         clearCanvas(false);
@@ -232,9 +299,10 @@
 
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return { x: clientX - rect.left, y: clientY - rect.top };
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
     }
 
     canvas.addEventListener('pointerdown', (e) => {
@@ -247,7 +315,7 @@
     canvas.addEventListener('pointermove', (e) => {
       if (!isDrawing) return;
       const pos = getPos(e);
-      drawStroke(lastX, lastY, pos.x, pos.y, currentColor, true);
+      drawStroke(lastX, lastY, pos.x, pos.y, currentColor, currentLineWidth, true);
       lastX = pos.x;
       lastY = pos.y;
     });
@@ -255,9 +323,9 @@
     window.addEventListener('pointerup', () => { isDrawing = false; });
     window.addEventListener('pointercancel', () => { isDrawing = false; });
 
-    function drawStroke(x0, y0, x1, y1, color, broadcast = true) {
+    function drawStroke(x0, y0, x1, y1, color, width, broadcast = true) {
       ctx.strokeStyle = color;
-      ctx.lineWidth = 4;
+      ctx.lineWidth = width;
       ctx.beginPath();
       ctx.moveTo(x0, y0);
       ctx.lineTo(x1, y1);
@@ -272,7 +340,8 @@
             y0: y0 / canvas.height,
             x1: x1 / canvas.width,
             y1: y1 / canvas.height,
-            color
+            color,
+            width
           }
         });
       }
