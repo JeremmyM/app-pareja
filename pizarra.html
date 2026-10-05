@@ -13,8 +13,8 @@
   <style>
     :root {
       --bg: #070a13;
-      --card-bg: rgba(19, 27, 46, 0.85);
-      --card-border: rgba(255, 255, 255, 0.12);
+      --card-bg: rgba(19, 27, 46, 0.9);
+      --card-border: rgba(255, 255, 255, 0.14);
       --accent: #f43f5e;
       --text: #f8fafc;
       --text-muted: #94a3b8;
@@ -29,7 +29,7 @@
     }
     html, body {
       height: 100%;
-      height: 100dvh; /* Altura dinámica exacta en iOS y Android */
+      height: 100dvh;
       overflow: hidden;
       background-color: var(--bg);
       color: var(--text);
@@ -37,7 +37,7 @@
     body {
       display: flex;
       flex-direction: column;
-      padding: env(safe-area-inset-top, 40px) 16px 0 16px;
+      padding: env(safe-area-inset-top, 38px) 14px calc(env(safe-area-inset-bottom, 15px) + 72px) 14px;
       position: relative;
     }
 
@@ -46,14 +46,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 38px;
+      height: 34px;
       margin-bottom: 8px;
       flex-shrink: 0;
     }
     .presence-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       padding: 5px 12px;
@@ -68,91 +68,94 @@
       box-shadow: 0 0 8px #10b981;
     }
 
-    /* Contenedor Principal de la Pizarra */
-    .board-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: #0b1120;
-      border: 1.5px solid rgba(244, 63, 94, 0.25); /* Borde distinguible */
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-      margin-bottom: calc(75px + env(safe-area-inset-bottom, 15px)); /* Espacio libre exacto sobre la barra inferior */
-      position: relative;
-    }
-
-    /* Canvas táctil */
-    #draw-canvas {
+    /* Marco de la Pizarra */
+    .board-frame {
       flex: 1;
       width: 100%;
-      background: #060911;
-      touch-action: none; /* Bloquea el scroll del móvil mientras dibujas */
-      cursor: crosshair;
+      position: relative;
+      background: #090e1a;
+      border: 2px solid rgba(244, 63, 94, 0.35);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      display: flex;
     }
 
-    /* Barra de Herramientas */
-    .board-controls {
+    /* Canvas de dibujo táctil */
+    #draw-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      cursor: crosshair;
+      z-index: 1;
+    }
+
+    /* Barra de Herramientas Flotante */
+    .floating-toolbar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      z-index: 10;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 12px;
-      background: #111827;
-      border-top: 1px solid var(--card-border);
-      flex-shrink: 0;
-      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .color-picker-row {
+    .color-palette {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
-    .color-circle {
-      width: 24px;
-      height: 24px;
+    .color-btn {
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
-      border: 2px solid transparent;
+      border: 2px solid rgba(255, 255, 255, 0.1);
       cursor: pointer;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-    .color-circle.active {
+    .color-btn.active {
+      transform: scale(1.22);
       border-color: #ffffff;
-      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 
-    .action-group {
+    .tools-group {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
-
-    .stroke-btn {
+    .tool-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       color: var(--text);
-      width: 30px;
       height: 30px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    .clear-btn {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid rgba(244, 63, 94, 0.35);
-      color: #fda4af;
-      padding: 6px 12px;
+      padding: 0 10px;
       border-radius: 8px;
       font-size: 0.78rem;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
-    .clear-btn:active {
-      transform: scale(0.94);
+    .tool-btn:active {
+      transform: scale(0.92);
+    }
+    .tool-btn.danger {
+      background: rgba(244, 63, 94, 0.18);
+      border-color: rgba(244, 63, 94, 0.45);
+      color: #fda4af;
     }
 
     /* Barra Inferior Fija */
@@ -195,29 +198,32 @@
       <div class="presence-dot"></div>
       <span id="user-display">Pizarra Compartida</span>
     </div>
-    <span style="font-size: 0.72rem; color: #94a3b8;" id="board-status">En vivo</span>
+    <span style="font-size: 0.72rem; color: #94a3b8;" id="board-status">Sincronizado</span>
   </div>
 
-  <!-- Contenedor Pizarra -->
-  <div class="board-container">
-    <canvas id="draw-canvas"></canvas>
+  <!-- Pizarra con Barra Flotante Superior -->
+  <div class="board-frame">
     
-    <div class="board-controls">
-      <div class="color-picker-row">
-        <div class="color-circle active" style="background: #f43f5e;" onclick="setColor('#f43f5e', this)"></div>
-        <div class="color-circle" style="background: #38bdf8;" onclick="setColor('#38bdf8', this)"></div>
-        <div class="color-circle" style="background: #facc15;" onclick="setColor('#facc15', this)"></div>
-        <div class="color-circle" style="background: #ffffff;" onclick="setColor('#ffffff', this)"></div>
+    <!-- Barra de Herramientas Flotante -->
+    <div class="floating-toolbar">
+      <div class="color-palette">
+        <div class="color-btn active" style="background: #f43f5e;" onclick="selectColor('#f43f5e', this)"></div>
+        <div class="color-btn" style="background: #38bdf8;" onclick="selectColor('#38bdf8', this)"></div>
+        <div class="color-btn" style="background: #facc15;" onclick="selectColor('#facc15', this)"></div>
+        <div class="color-btn" style="background: #ffffff;" onclick="selectColor('#ffffff', this)"></div>
       </div>
 
-      <div class="action-group">
-        <button class="stroke-btn" onclick="toggleLineWidth(this)" title="Grosor de trazo">●</button>
-        <button class="clear-btn" onclick="clearCanvas(true)">🗑 Borrar</button>
+      <div class="tools-group">
+        <button class="tool-btn" id="stroke-btn" onclick="toggleStroke(this)">● 4px</button>
+        <button class="tool-btn danger" onclick="clearCanvas(true)">🗑️ Borrar</button>
       </div>
     </div>
+
+    <!-- Lienzo -->
+    <canvas id="draw-canvas"></canvas>
   </div>
 
-  <!-- Barra de Navegación Inferior -->
+  <!-- Barra Inferior -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -245,7 +251,6 @@
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
       if (canvas.width !== rect.width || canvas.height !== rect.height) {
-        // Preserva el contenido existente si el teclado o barra cambia el tamaño
         let temp;
         if (canvas.width > 0 && canvas.height > 0) {
           temp = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -257,27 +262,28 @@
         if (temp) ctx.putImageData(temp, 0, 0);
       }
     }
+
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('orientationchange', resizeCanvas);
-    setTimeout(resizeCanvas, 80);
+    setTimeout(resizeCanvas, 60);
 
-    function setColor(color, elem) {
+    function selectColor(color, elem) {
       currentColor = color;
-      document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
       elem.classList.add('active');
     }
 
-    function toggleLineWidth(btn) {
+    function toggleStroke(btn) {
       if (currentLineWidth === 4) {
-        currentLineWidth = 9;
-        btn.innerText = '⬤';
+        currentLineWidth = 8;
+        btn.innerText = '⬤ 8px';
       } else {
         currentLineWidth = 4;
-        btn.innerText = '●';
+        btn.innerText = '● 4px';
       }
     }
 
-    // Canal WebSockets Broadcast en tiempo real
+    // Canal WebSockets Broadcast
     const channel = supabaseClient.channel('whiteboard-live', {
       config: { broadcast: { self: false } }
     });
@@ -299,9 +305,11 @@
 
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        x: clientX - rect.left,
+        y: clientY - rect.top
       };
     }
 
