@@ -28,18 +28,20 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
-    body {
+    html, body {
       background-color: var(--bg);
+      color: var(--text);
+      min-height: 100%;
+    }
+    body {
       background-image: 
         radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.12) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.12) 0px, transparent 50%);
-      color: var(--text);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: env(safe-area-inset-top, 42px) 18px calc(env(safe-area-inset-bottom, 20px) + 75px);
+      padding: env(safe-area-inset-top, 40px) 16px calc(env(safe-area-inset-bottom, 20px) + 85px) 16px;
       text-align: center;
-      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .couple-header {
@@ -47,23 +49,23 @@
       align-items: center;
       justify-content: center;
       gap: 14px;
-      margin: 15px 0 20px;
+      margin: 10px 0 16px;
     }
     .user-profile {
       flex: 1;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 12px 8px;
+      border-radius: 18px;
+      padding: 10px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .avatar-wrapper {
-      width: 65px;
-      height: 65px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       border: 2px solid var(--accent);
       padding: 2px;
@@ -84,16 +86,15 @@
     .mood-pill-status {
       background: rgba(244, 63, 94, 0.15);
       border: 1px solid rgba(244, 63, 94, 0.3);
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-top: 2px;
+      gap: 5px;
     }
-    .mood-emoji-big { font-size: 1.2rem; }
+    .mood-emoji-big { font-size: 1.1rem; }
     .mood-text-status {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #fda4af;
       font-weight: 600;
     }
@@ -101,9 +102,9 @@
     .anniversary-banner {
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.18), rgba(99, 102, 241, 0.18));
       border: 1px solid rgba(244, 63, 94, 0.35);
-      border-radius: 20px;
-      padding: 16px 18px;
-      margin-bottom: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
       text-align: left;
       display: flex;
       align-items: center;
@@ -111,83 +112,112 @@
       backdrop-filter: blur(10px);
     }
     .banner-title {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: #fda4af;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .banner-text {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: white;
       margin-top: 2px;
     }
     .banner-sub {
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
 
-    /* Grilla simétrica de 4 tarjetas */
+    /* BOTÓN BANNER DESTACADO PARA LA MASCOTA */
+    .pet-hero-card {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.22), rgba(30, 41, 59, 0.85));
+      border: 1.5px solid rgba(244, 63, 94, 0.4);
+      border-radius: 18px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      transition: transform 0.15s ease;
+    }
+    .pet-hero-card:active {
+      transform: scale(0.97);
+    }
+    .pet-hero-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+    .pet-hero-icon {
+      font-size: 2.2rem;
+    }
+    .pet-hero-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .pet-hero-sub {
+      font-size: 0.75rem;
+      color: #fda4af;
+    }
+    .pet-hero-btn {
+      background: var(--accent);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    /* 3 Métricas en fila equilibrada */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
     .metric-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 16px 10px;
+      border-radius: 16px;
+      padding: 12px 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       backdrop-filter: blur(10px);
-      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-    .metric-card.interactive {
-      cursor: pointer;
-      border-color: rgba(244, 63, 94, 0.3);
-      background: linear-gradient(145deg, rgba(19, 27, 46, 0.9), rgba(244, 63, 94, 0.08));
-    }
-    .metric-card.interactive:active {
-      transform: scale(0.96);
-      border-color: var(--accent);
-    }
-    .metric-icon { font-size: 1.6rem; }
+    .metric-icon { font-size: 1.35rem; }
     .metric-title {
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       color: var(--text-muted);
       font-weight: 500;
       line-height: 1.1;
     }
     .metric-value {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--text);
-    }
-    .metric-badge-sub {
-      font-size: 0.65rem;
-      color: #fda4af;
-      font-weight: 600;
     }
 
     .mood-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 14px;
-      margin-bottom: 15px;
+      padding: 12px;
+      margin-bottom: 12px;
       text-align: left;
     }
     .mood-label {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: block;
     }
     .mood-row {
@@ -199,8 +229,8 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 8px 10px;
-      font-size: 1.25rem;
+      padding: 8px 6px;
+      font-size: 1.2rem;
       cursor: pointer;
       flex: 1;
       transition: all 0.2s ease;
@@ -257,7 +287,7 @@
       </div>
     </div>
 
-    <div style="font-size: 1.4rem;">☁️❤️☁️</div>
+    <div style="font-size: 1.3rem;">☁️❤️☁️</div>
 
     <div class="user-profile">
       <div class="avatar-wrapper">
@@ -277,38 +307,39 @@
       <div class="banner-text" id="anniversary-counter">Cargando...</div>
       <div class="banner-sub" id="anniversary-sub">Iniciamos en 2024</div>
     </div>
-    <div style="font-size: 2.2rem;">💍</div>
+    <div style="font-size: 2rem;">💍</div>
   </div>
 
-  <!-- 4 Métricas Reales Claras -->
+  <!-- TARJETA DESTACADA PERMANENTE DE LA MASCOTA -->
+  <div class="pet-hero-card" onclick="window.location.href='mascota.html'">
+    <div class="pet-hero-left">
+      <div class="pet-hero-icon">🐱</div>
+      <div>
+        <div class="pet-hero-title" id="pet-summary-name">Mishi • Nv. 1</div>
+        <div class="pet-hero-sub">Toca para entrar a cuidar a la mascota</div>
+      </div>
+    </div>
+    <div class="pet-hero-btn">Cuidar →</div>
+  </div>
+
+  <!-- 3 Métricas -->
   <div class="metrics-grid">
     <div class="metric-card">
       <span class="metric-icon">💞</span>
       <span class="metric-title">Juntos Desde</span>
       <span class="metric-value" id="days-together-stat">0</span>
-      <span class="metric-badge-sub" id="next-aniv-days">-- días al aniv.</span>
     </div>
 
     <div class="metric-card">
       <span class="metric-icon">💋</span>
       <span class="metric-title">Toques Totales</span>
       <span class="metric-value" id="total-touches-stat">0</span>
-      <span class="metric-badge-sub">enviados</span>
     </div>
 
     <div class="metric-card">
       <span class="metric-icon">🔥</span>
       <span class="metric-title">Racha Amor</span>
       <span class="metric-value" id="streak-stat">0d</span>
-      <span class="metric-badge-sub">días seguidos</span>
-    </div>
-
-    <!-- Tarjeta de Mascota: Lleva directo a la habitación del gato -->
-    <div class="metric-card interactive" onclick="window.location.href='mascota.html'">
-      <span class="metric-icon">🐾</span>
-      <span class="metric-title">Mascota Mishi</span>
-      <span class="metric-value" id="pet-summary-level">Nv. 1</span>
-      <span class="metric-badge-sub">Toca para cuidar →</span>
     </div>
   </div>
 
@@ -323,7 +354,6 @@
     </div>
   </div>
 
-  <!-- Barra de navegación con 3 secciones principales -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -345,7 +375,6 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let currentOwner = localStorage.getItem('device_owner') || 'Jeremmy';
-
     const startDate = new Date('2024-06-25T00:00:00');
 
     function calculateAnniversary() {
@@ -369,17 +398,11 @@
       document.getElementById('days-together-stat').innerText = `${diffDays}`;
       document.getElementById('anniversary-counter').innerText = `${diffDays} días juntos`;
       document.getElementById('anniversary-sub').innerText = `${years} años, ${months} meses y ${days} días`;
-
-      let nextAnniv = new Date(now.getFullYear(), 5, 25);
-      if (now > nextAnniv) nextAnniv = new Date(now.getFullYear() + 1, 5, 25);
-      const daysToNext = Math.ceil((nextAnniv - now) / (1000 * 60 * 60 * 24));
-      document.getElementById('next-aniv-days').innerText = `${daysToNext}d al aniversario`;
     }
 
     calculateAnniversary();
 
     async function loadStats() {
-      // 1. Toques y Racha
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -404,10 +427,9 @@
         document.getElementById('streak-stat').innerText = '0d';
       }
 
-      // 2. Info de la Mascota
       const { data: pet } = await supabaseClient.from('pet_state').select('level, name').eq('id', 1).single();
       if (pet) {
-        document.getElementById('pet-summary-level').innerText = `Nv. ${pet.level}`;
+        document.getElementById('pet-summary-name').innerText = `${pet.name} • Nv. ${pet.level}`;
       }
     }
 

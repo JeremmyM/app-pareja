@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Mascota Mishi - Nosotros</title>
+  <title>Mascota - Nosotros</title>
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -30,54 +30,48 @@
     html, body {
       width: 100%;
       height: 100%;
-      height: 100dvh;
-      overflow: hidden;
       background-color: var(--bg);
       color: var(--text);
+      overflow: hidden;
     }
     
-    /* Layout a pantalla completa limpia */
-    .app-layout {
+    .screen-wrapper {
       width: 100%;
-      height: 100%;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: env(safe-area-inset-top, 38px) 16px calc(env(safe-area-inset-bottom, 16px) + 12px) 16px;
+      padding: env(safe-area-inset-top, 38px) 14px calc(env(safe-area-inset-bottom, 15px) + 10px) 14px;
     }
 
-    /* Barra Superior con Navegación de Retorno Rápido */
-    .top-nav-bar {
+    /* Barra Superior */
+    .top-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 38px;
+      height: 34px;
       flex-shrink: 0;
-      z-index: 50;
     }
-    .back-btn {
+    .back-chip {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: #fda4af;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 6px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      text-decoration: none;
+      gap: 5px;
     }
-    .back-btn:active { transform: scale(0.94); }
+    .back-chip:active { transform: scale(0.94); }
 
-    .quick-nav {
+    .quick-tabs {
       display: flex;
       gap: 6px;
     }
-    .quick-link {
+    .quick-tab-btn {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
@@ -90,7 +84,6 @@
       font-size: 0.95rem;
       text-decoration: none;
     }
-    .quick-link:active { transform: scale(0.92); border-color: var(--accent); }
 
     /* Medidores */
     .vital-bars-grid {
@@ -99,12 +92,10 @@
       gap: 6px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 10px 14px;
-      backdrop-filter: blur(12px);
+      border-radius: 14px;
+      padding: 8px 10px;
       flex-shrink: 0;
-      margin-top: 6px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      margin-top: 4px;
     }
     .vital-item {
       display: flex;
@@ -114,13 +105,13 @@
     .vital-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 600;
       color: var(--text-muted);
     }
     .meter-track {
       width: 100%;
-      height: 6px;
+      height: 5px;
       background: rgba(255, 255, 255, 0.08);
       border-radius: 999px;
       overflow: hidden;
@@ -135,8 +126,8 @@
     .fill-affection { background: linear-gradient(90deg, #ec4899, #f43f5e); }
     .fill-fun { background: linear-gradient(90deg, #eab308, #10b981); }
 
-    /* Habitación Amplia del Gato */
-    .room-viewport {
+    /* Habitación central */
+    .room-stage {
       flex: 1;
       width: 100%;
       position: relative;
@@ -144,16 +135,15 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 25px;
-      background: radial-gradient(circle at 50% 60%, rgba(244, 63, 94, 0.09) 0%, transparent 70%);
-      min-height: 220px;
+      padding-bottom: 16px;
+      min-height: 160px;
     }
 
     .carpet {
       position: absolute;
-      bottom: 14px;
-      width: 240px;
-      height: 70px;
+      bottom: 8px;
+      width: 210px;
+      height: 55px;
       background: radial-gradient(ellipse at center, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.3) 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 50%;
@@ -162,45 +152,44 @@
 
     .food-bowl {
       position: absolute;
-      bottom: 24px;
-      left: 28px;
-      width: 44px;
-      height: 22px;
+      bottom: 16px;
+      left: 16px;
+      width: 38px;
+      height: 20px;
       background: #334155;
       border: 2px solid #64748b;
-      border-radius: 0 0 20px 20px;
+      border-radius: 0 0 18px 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       z-index: 2;
     }
     .food-content {
       position: relative;
-      top: -8px;
+      top: -6px;
     }
 
     .cat-bed {
       position: absolute;
-      bottom: 22px;
-      right: 28px;
-      width: 56px;
-      height: 28px;
+      bottom: 14px;
+      right: 16px;
+      width: 48px;
+      height: 24px;
       background: rgba(244, 63, 94, 0.18);
       border: 2px dashed rgba(244, 63, 94, 0.4);
-      border-radius: 18px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       z-index: 2;
     }
 
-    /* Gato */
     .cat-actor {
       position: relative;
-      width: 110px;
-      height: 100px;
+      width: 95px;
+      height: 85px;
       z-index: 5;
       cursor: pointer;
       display: flex;
@@ -211,74 +200,74 @@
     .cat-actor:active { transform: scale(0.92); }
 
     .cat-body-shape {
-      width: 82px;
-      height: 72px;
+      width: 72px;
+      height: 64px;
       background: #fdfdfd;
       border-radius: 50% 50% 45% 45%;
       position: relative;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
     .ear {
       position: absolute;
-      top: -12px;
+      top: -10px;
       width: 0;
       height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 18px solid #fdfdfd;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 16px solid #fdfdfd;
     }
-    .ear.left { left: 8px; transform: rotate(-16deg); }
-    .ear.right { right: 8px; transform: rotate(16deg); }
+    .ear.left { left: 6px; transform: rotate(-16deg); }
+    .ear.right { right: 6px; transform: rotate(16deg); }
     .ear-pink {
       position: absolute;
-      top: 5px;
+      top: 4px;
       left: -5px;
       width: 0;
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 11px solid #fda4af;
+      border-bottom: 10px solid #fda4af;
     }
     .eye {
       position: absolute;
-      top: 28px;
-      width: 8px;
-      height: 10px;
+      top: 24px;
+      width: 7px;
+      height: 9px;
       background: #1e293b;
       border-radius: 50%;
       animation: catBlink 3.8s infinite;
     }
-    .eye.left { left: 20px; }
-    .eye.right { right: 20px; }
+    .eye.left { left: 16px; }
+    .eye.right { right: 16px; }
     @keyframes catBlink {
       0%, 95%, 100% { transform: scaleY(1); }
       97% { transform: scaleY(0.1); }
     }
     .nose {
       position: absolute;
-      top: 38px;
+      top: 32px;
       left: 50%;
       transform: translateX(-50%);
-      width: 6px;
-      height: 4px;
+      width: 5px;
+      height: 3px;
       background: #f43f5e;
       border-radius: 40%;
     }
     .whiskers {
       position: absolute;
-      top: 40px;
-      width: 12px;
+      top: 34px;
+      width: 10px;
       height: 1px;
       background: #cbd5e1;
     }
-    .whiskers.left { left: 4px; transform: rotate(8deg); }
-    .whiskers.right { right: 4px; transform: rotate(-8deg); }
+    .whiskers.left { left: 3px; transform: rotate(8deg); }
+    .whiskers.right { right: 3px; transform: rotate(-8deg); }
     .tail {
       position: absolute;
-      bottom: 6px;
-      right: -10px;
-      width: 18px;
-      height: 7px;
+      bottom: 4px;
+      right: -8px;
+      width: 16px;
+      height: 6px;
       background: #fdfdfd;
       border-radius: 10px;
       transform-origin: left center;
@@ -290,93 +279,87 @@
     }
 
     .cat-actor.sleeping {
-      transform: translate(65px, 6px) scale(0.85);
+      transform: translate(50px, 4px) scale(0.85);
     }
     .cat-actor.sleeping .eye {
-      height: 3px !important;
-      border-radius: 0 0 10px 10px;
+      height: 2px !important;
+      border-radius: 0 0 8px 8px;
       transform: scaleY(1) !important;
       animation: none !important;
     }
     .cat-actor.sleeping .tail { animation: none; }
 
     .cat-actor.eating {
-      transform: translate(-60px, 6px) scale(0.9);
+      transform: translate(-48px, 4px) scale(0.9);
     }
 
     .chat-bubble {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 6px 14px;
-      font-size: 0.75rem;
+      border-radius: 12px;
+      padding: 5px 12px;
+      font-size: 0.72rem;
       font-weight: 500;
       color: #e2e8f0;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
       max-width: 90%;
       text-align: center;
       z-index: 6;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* Bandeja Inferior Cómoda y Espaciosa */
+    /* BOTONERA COMPACTA GARANTIZADA SOBRE EL MARGEN */
     .action-deck {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       width: 100%;
       flex-shrink: 0;
+      margin-top: 4px;
     }
     .care-btn {
       flex: 1;
-      height: 64px;
+      height: 52px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 6px;
+      border-radius: 12px;
+      padding: 4px;
       color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
-      font-size: 0.72rem;
+      gap: 2px;
+      font-size: 0.65rem;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-      backdrop-filter: blur(10px);
-      transition: all 0.15s ease;
     }
     .care-btn:active {
       transform: scale(0.92);
       border-color: var(--accent);
       background: var(--accent-soft);
     }
-    .care-btn span.ico { font-size: 1.4rem; }
+    .care-btn span.ico { font-size: 1.25rem; }
   </style>
 </head>
 <body>
 
-  <div class="app-layout">
+  <div class="screen-wrapper">
     
-    <!-- Barra Superior con Botón Volver y Accesos -->
-    <div class="top-nav-bar">
-      <a href="perfil.html" class="back-btn">
+    <div class="top-nav">
+      <a href="perfil.html" class="back-chip">
         <span>←</span>
-        <span>Salir</span>
+        <span>Perfil</span>
       </a>
 
       <div style="font-size: 0.78rem; font-weight: 700; color: #fda4af;" id="pet-title">
         Mishi • Nv. 1
       </div>
 
-      <div class="quick-nav">
-        <a href="index.html" class="quick-link" title="Ir a Toque">❤️</a>
-        <a href="pizarra.html" class="quick-link" title="Ir a Pizarra">🎨</a>
-        <a href="perfil.html" class="quick-link" title="Ir a Perfil">👤</a>
+      <div class="quick-tabs">
+        <a href="index.html" class="quick-tab-btn" title="Toque">❤️</a>
+        <a href="pizarra.html" class="quick-tab-btn" title="Pizarra">🎨</a>
       </div>
     </div>
 
-    <!-- Medidores -->
     <div class="vital-bars-grid">
       <div class="vital-item">
         <div class="vital-header">
@@ -419,8 +402,7 @@
       </div>
     </div>
 
-    <!-- Habitación Amplia -->
-    <div class="room-viewport">
+    <div class="room-stage">
       <div class="chat-bubble" id="pet-dialogue">¡Miau! Tócame para hacerme mimos.</div>
 
       <div class="food-bowl">
@@ -444,7 +426,7 @@
       <div class="carpet"></div>
     </div>
 
-    <!-- Bandeja de Acciones (Completamente Despejada) -->
+    <!-- 4 Botones de Cuidado que siempre caben -->
     <div class="action-deck">
       <button class="care-btn" onclick="feedAction('🐟', 20)">
         <span class="ico">🐟</span>
@@ -511,17 +493,13 @@
 
       if (pet.is_sleeping) {
         catElem.className = 'cat-actor sleeping';
-        dialogue.innerText = `Zzz... ${pet.name} está durmiendo plácidamente.`;
+        dialogue.innerText = `Zzz... ${pet.name} está durmiendo.`;
         document.getElementById('sleep-btn-icon').innerText = '☀️';
         document.getElementById('sleep-btn-label').innerText = 'Despertar';
       } else {
         catElem.className = 'cat-actor';
         document.getElementById('sleep-btn-icon').innerText = '🌙';
         document.getElementById('sleep-btn-label').innerText = 'Dormir';
-
-        if (pet.hunger < 30) {
-          dialogue.innerText = '😿 ¡Tengo hambre! ¿Me das algo rico?';
-        }
       }
     }
 
@@ -534,11 +512,11 @@
 
       bowlFood.innerText = foodEmoji;
       catElem.classList.add('eating');
-      dialogue.innerText = `¡Ñam ñam! ${currentOwner} le sirvió ${foodEmoji}`;
+      dialogue.innerText = `¡Ñam ñam! ${currentOwner} le dio ${foodEmoji}`;
 
       pet.hunger = Math.min(100, pet.hunger + gain);
       pet.xp += 10;
-      checkLevelUp();
+      if (pet.xp >= (pet.level * 100)) pet.level += 1;
       pet.last_action_by = currentOwner;
       renderPetUI();
 
@@ -559,10 +537,10 @@
 
       if ('vibrate' in navigator) navigator.vibrate([40, 80, 40, 80, 60]);
 
-      dialogue.innerText = `Purrr... ❤️ A ${pet.name} le encantan los mimos de ${currentOwner}.`;
+      dialogue.innerText = `Purrr... ❤️ A ${pet.name} le encantan tus mimos.`;
       pet.affection = Math.min(100, pet.affection + 6);
       pet.xp += 5;
-      checkLevelUp();
+      if (pet.xp >= (pet.level * 100)) pet.level += 1;
       pet.last_action_by = currentOwner;
       renderPetUI();
 
@@ -571,20 +549,20 @@
 
     async function playLaserAction() {
       if (pet.is_sleeping) {
-        dialogue.innerText = 'Está muy cansado para jugar ahora.';
+        dialogue.innerText = 'Está durmiendo, no puede jugar ahora.';
         return;
       }
       if ('vibrate' in navigator) navigator.vibrate(80);
 
-      catElem.style.transform = 'translateY(-16px) rotate(10deg)';
-      dialogue.innerText = `🎾 ¡${pet.name} saltó jugando con ${currentOwner}!`;
+      catElem.style.transform = 'translateY(-14px) rotate(10deg)';
+      dialogue.innerText = `🎾 ¡${pet.name} saltó jugando!`;
 
       setTimeout(() => { catElem.style.transform = ''; }, 350);
 
       pet.fun = Math.min(100, pet.fun + 15);
       pet.energy = Math.max(10, pet.energy - 10);
       pet.xp += 15;
-      checkLevelUp();
+      if (pet.xp >= (pet.level * 100)) pet.level += 1;
       pet.last_action_by = currentOwner;
       renderPetUI();
 
@@ -599,13 +577,6 @@
       pet.last_action_by = currentOwner;
       renderPetUI();
       await savePetToCloud();
-    }
-
-    function checkLevelUp() {
-      if (pet.xp >= (pet.level * 100)) {
-        pet.level += 1;
-        dialogue.innerText = `🎉 ¡${pet.name} subió al Nivel ${pet.level}! Creció gracias a ambos.`;
-      }
     }
 
     async function savePetToCloud() {
