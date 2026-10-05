@@ -18,7 +18,6 @@
       --accent-soft: rgba(244, 63, 94, 0.2);
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --nav-height: 65px;
     }
     * {
       box-sizing: border-box;
@@ -29,65 +28,53 @@
       -webkit-tap-highlight-color: transparent;
     }
     html, body {
+      width: 100%;
       height: 100%;
       height: 100dvh;
       overflow: hidden;
       background-color: var(--bg);
       color: var(--text);
     }
-    body {
-      display: flex;
-      flex-direction: column;
-      position: relative;
+    
+    /* Layout rígido en Grid: nada puede desbordar ni taparse */
+    .app-layout {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto auto;
+      padding: env(safe-area-inset-top, 38px) 14px 0 14px;
+      gap: 6px;
     }
 
-    /* CONTENEDOR PRINCIPAL CON ESPACIO SEGURO Y SCROLL SI ES PANTALLA PEQUEÑA */
-    .app-scroller {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: env(safe-area-inset-top, 35px) 16px 12px 16px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      min-height: 0;
-    }
-
-    /* Cabecera superior */
+    /* 1. Cabecera */
     .top-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 34px;
-      flex-shrink: 0;
-      margin-bottom: 6px;
+      height: 32px;
     }
     .pet-chip {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 5px 12px;
+      padding: 4px 12px;
       border-radius: 999px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: #fda4af;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* Tablero de Necesidades Vitales */
+    /* 2. Medidores de Vida */
     .vital-bars-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 8px 12px;
-      backdrop-filter: blur(12px);
-      flex-shrink: 0;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
     .vital-item {
       display: flex;
@@ -97,7 +84,7 @@
     .vital-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 600;
       color: var(--text-muted);
     }
@@ -111,33 +98,30 @@
     .meter-fill {
       height: 100%;
       border-radius: 999px;
-      transition: width 0.5s ease;
+      transition: width 0.4s ease;
     }
     .fill-hunger { background: linear-gradient(90deg, #f97316, #ef4444); }
     .fill-energy { background: linear-gradient(90deg, #38bdf8, #6366f1); }
     .fill-affection { background: linear-gradient(90deg, #ec4899, #f43f5e); }
     .fill-fun { background: linear-gradient(90deg, #eab308, #10b981); }
 
-    /* Habitación / Escenario del Gato */
+    /* 3. Habitación / Escenario (se estira dinámicamente) */
     .room-viewport {
-      flex: 1;
-      min-height: 200px;
-      width: 100%;
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 20px;
+      padding-bottom: 12px;
       background: radial-gradient(circle at 50% 65%, rgba(244, 63, 94, 0.08) 0%, transparent 70%);
-      margin: 4px 0;
+      min-height: 0;
     }
 
     .carpet {
       position: absolute;
-      bottom: 12px;
-      width: 220px;
-      height: 65px;
+      bottom: 8px;
+      width: 200px;
+      height: 55px;
       background: radial-gradient(ellipse at center, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.3) 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 50%;
@@ -146,124 +130,123 @@
 
     .food-bowl {
       position: absolute;
-      bottom: 22px;
-      left: 28px;
-      width: 42px;
-      height: 22px;
+      bottom: 16px;
+      left: 20px;
+      width: 38px;
+      height: 20px;
       background: #334155;
       border: 2px solid #64748b;
-      border-radius: 0 0 20px 20px;
+      border-radius: 0 0 18px 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       z-index: 2;
     }
     .food-content {
       position: relative;
-      top: -8px;
-      transition: transform 0.3s ease;
+      top: -6px;
     }
 
     .cat-bed {
       position: absolute;
-      bottom: 20px;
-      right: 25px;
-      width: 52px;
-      height: 28px;
+      bottom: 14px;
+      right: 20px;
+      width: 48px;
+      height: 26px;
       background: rgba(244, 63, 94, 0.18);
       border: 2px dashed rgba(244, 63, 94, 0.4);
-      border-radius: 18px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
       z-index: 2;
     }
 
-    /* GATITO INTERACTIVO */
+    /* Gato */
     .cat-actor {
       position: relative;
-      width: 110px;
-      height: 100px;
+      width: 95px;
+      height: 85px;
       z-index: 5;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .cat-actor:active { transform: scale(0.92); }
 
     .cat-body-shape {
-      width: 82px;
-      height: 72px;
+      width: 72px;
+      height: 64px;
       background: #fdfdfd;
       border-radius: 50% 50% 45% 45%;
       position: relative;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     }
     .ear {
       position: absolute;
-      top: -12px;
+      top: -10px;
       width: 0;
       height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 18px solid #fdfdfd;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 16px solid #fdfdfd;
     }
-    .ear.left { left: 8px; transform: rotate(-16deg); }
-    .ear.right { right: 8px; transform: rotate(16deg); }
+    .ear.left { left: 6px; transform: rotate(-16deg); }
+    .ear.right { right: 6px; transform: rotate(16deg); }
     .ear-pink {
       position: absolute;
-      top: 5px;
+      top: 4px;
       left: -5px;
       width: 0;
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 11px solid #fda4af;
+      border-bottom: 10px solid #fda4af;
     }
     .eye {
       position: absolute;
-      top: 28px;
-      width: 8px;
-      height: 10px;
+      top: 24px;
+      width: 7px;
+      height: 9px;
       background: #1e293b;
       border-radius: 50%;
       animation: catBlink 3.8s infinite;
     }
-    .eye.left { left: 20px; }
-    .eye.right { right: 20px; }
+    .eye.left { left: 16px; }
+    .eye.right { right: 16px; }
     @keyframes catBlink {
       0%, 95%, 100% { transform: scaleY(1); }
       97% { transform: scaleY(0.1); }
     }
     .nose {
       position: absolute;
-      top: 38px;
+      top: 32px;
       left: 50%;
       transform: translateX(-50%);
-      width: 6px;
-      height: 4px;
+      width: 5px;
+      height: 3px;
       background: #f43f5e;
       border-radius: 40%;
     }
     .whiskers {
       position: absolute;
-      top: 40px;
-      width: 12px;
+      top: 34px;
+      width: 10px;
       height: 1px;
       background: #cbd5e1;
     }
-    .whiskers.left { left: 4px; transform: rotate(8deg); }
-    .whiskers.right { right: 4px; transform: rotate(-8deg); }
+    .whiskers.left { left: 3px; transform: rotate(8deg); }
+    .whiskers.right { right: 3px; transform: rotate(-8deg); }
     .tail {
       position: absolute;
-      bottom: 6px;
-      right: -10px;
-      width: 18px;
-      height: 7px;
+      bottom: 4px;
+      right: -8px;
+      width: 16px;
+      height: 6px;
       background: #fdfdfd;
       border-radius: 10px;
       transform-origin: left center;
@@ -275,59 +258,57 @@
     }
 
     .cat-actor.sleeping {
-      transform: translate(65px, 4px) scale(0.85);
+      transform: translate(50px, 4px) scale(0.85);
     }
     .cat-actor.sleeping .eye {
-      height: 3px !important;
-      border-radius: 0 0 10px 10px;
+      height: 2px !important;
+      border-radius: 0 0 8px 8px;
       transform: scaleY(1) !important;
       animation: none !important;
     }
     .cat-actor.sleeping .tail { animation: none; }
 
     .cat-actor.eating {
-      transform: translate(-60px, 6px) scale(0.9);
+      transform: translate(-48px, 4px) scale(0.9);
     }
 
     .chat-bubble {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 5px 12px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 500;
       color: #e2e8f0;
       margin-bottom: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       max-width: 90%;
       text-align: center;
       z-index: 6;
     }
 
-    /* BOTONES DE CUIDADO: COMPLETAMENTE DENTRO DEL FLUJO Y CON ALTURA FIJA */
+    /* 4. Bandeja de Acciones: En el flujo normal, NUNCA tapada */
     .action-deck {
       display: flex;
       gap: 8px;
       width: 100%;
-      flex-shrink: 0;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .care-btn {
       flex: 1;
+      height: 58px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 8px 4px;
+      padding: 4px;
       color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 2px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
       cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: all 0.15s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
     .care-btn:active {
@@ -335,30 +316,18 @@
       border-color: var(--accent);
       background: var(--accent-soft);
     }
-    .care-btn span.ico { font-size: 1.35rem; }
+    .care-btn span.ico { font-size: 1.25rem; }
 
-    /* ESPACIADOR FÍSICO PARA LA BARRA INFERIOR */
-    .bottom-nav-spacer {
-      width: 100%;
-      height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
-      flex-shrink: 0;
-    }
-
-    /* BARRA INFERIOR FIJA CON Z-INDEX Y ALTURA CLARA */
+    /* 5. Barra Inferior en flujo estricto */
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
-      background: rgba(15, 23, 42, 0.96);
-      backdrop-filter: blur(16px);
+      height: calc(56px + env(safe-area-inset-bottom, 0px));
+      background: rgba(15, 23, 42, 0.98);
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: space-around;
-      align-items: flex-start;
-      padding-top: 8px;
-      z-index: 1000;
+      align-items: center;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      margin: 0 -14px; /* Extender borde a borde */
     }
     .nav-item {
       background: none;
@@ -367,73 +336,72 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
-      font-size: 0.68rem;
+      gap: 2px;
+      font-size: 0.65rem;
       text-decoration: none;
       width: 25%;
     }
     .nav-item.active { color: var(--accent); }
-    .nav-item span.icon { font-size: 1.25rem; }
+    .nav-item span.icon { font-size: 1.15rem; }
   </style>
 </head>
 <body>
 
-  <!-- Contenedor que ocupa la pantalla visible sobre la barra -->
-  <div class="app-scroller">
+  <div class="app-layout">
     
-    <!-- Cabecera -->
+    <!-- 1. Cabecera -->
     <div class="top-header">
       <div class="pet-chip">
         <span>🐾</span>
         <span id="pet-title">Mishi • Nv. 1</span>
       </div>
-      <span style="font-size: 0.72rem; color: #94a3b8;" id="caretaker-text">Cargando...</span>
+      <span style="font-size: 0.68rem; color: #94a3b8;" id="caretaker-text">Cargando...</span>
     </div>
 
-    <!-- Medidores -->
+    <!-- 2. Medidores -->
     <div class="vital-bars-grid">
       <div class="vital-item">
         <div class="vital-header">
           <span>🍗 Hambre</span>
-          <span id="txt-hunger">85%</span>
+          <span id="txt-hunger">100%</span>
         </div>
         <div class="meter-track">
-          <div class="meter-fill fill-hunger" id="bar-hunger" style="width: 85%;"></div>
+          <div class="meter-fill fill-hunger" id="bar-hunger" style="width: 100%;"></div>
         </div>
       </div>
 
       <div class="vital-item">
         <div class="vital-header">
           <span>⚡ Energía</span>
-          <span id="txt-energy">90%</span>
+          <span id="txt-energy">100%</span>
         </div>
         <div class="meter-track">
-          <div class="meter-fill fill-energy" id="bar-energy" style="width: 90%;"></div>
+          <div class="meter-fill fill-energy" id="bar-energy" style="width: 100%;"></div>
         </div>
       </div>
 
       <div class="vital-item">
         <div class="vital-header">
           <span>💖 Cariño</span>
-          <span id="txt-affection">95%</span>
+          <span id="txt-affection">100%</span>
         </div>
         <div class="meter-track">
-          <div class="meter-fill fill-affection" id="bar-affection" style="width: 95%;"></div>
+          <div class="meter-fill fill-affection" id="bar-affection" style="width: 100%;"></div>
         </div>
       </div>
 
       <div class="vital-item">
         <div class="vital-header">
           <span>🎾 Diversión</span>
-          <span id="txt-fun">80%</span>
+          <span id="txt-fun">100%</span>
         </div>
         <div class="meter-track">
-          <div class="meter-fill fill-fun" id="bar-fun" style="width: 80%;"></div>
+          <div class="meter-fill fill-fun" id="bar-fun" style="width: 100%;"></div>
         </div>
       </div>
     </div>
 
-    <!-- Habitación del Gatito -->
+    <!-- 3. Habitación -->
     <div class="room-viewport">
       <div class="chat-bubble" id="pet-dialogue">¡Miau! Tócame para hacerme mimos.</div>
 
@@ -458,7 +426,7 @@
       <div class="carpet"></div>
     </div>
 
-    <!-- Bandeja de Acciones: Siempre visible por encima del menú -->
+    <!-- 4. Botones de Cuidado (Siempre 100% a la vista) -->
     <div class="action-deck">
       <button class="care-btn" onclick="feedAction('🐟', 20)">
         <span class="ico">🐟</span>
@@ -478,30 +446,27 @@
       </button>
     </div>
 
+    <!-- 5. Barra Inferior Fija dentro del Grid -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <span class="icon">❤️</span>
+        <span>Toque</span>
+      </a>
+      <a href="pizarra.html" class="nav-item">
+        <span class="icon">🎨</span>
+        <span>Pizarra</span>
+      </a>
+      <a href="mascota.html" class="nav-item active">
+        <span class="icon">🐾</span>
+        <span>Mascota</span>
+      </a>
+      <a href="perfil.html" class="nav-item">
+        <span class="icon">👤</span>
+        <span>Perfil</span>
+      </a>
+    </nav>
+
   </div>
-
-  <!-- Espacio físico reservado exactamente para el menú -->
-  <div class="bottom-nav-spacer"></div>
-
-  <!-- Barra de Navegación Fija -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item">
-      <span class="icon">❤️</span>
-      <span>Toque</span>
-    </a>
-    <a href="pizarra.html" class="nav-item">
-      <span class="icon">🎨</span>
-      <span>Pizarra</span>
-    </a>
-    <a href="mascota.html" class="nav-item active">
-      <span class="icon">🐾</span>
-      <span>Mascota</span>
-    </a>
-    <a href="perfil.html" class="nav-item">
-      <span class="icon">👤</span>
-      <span>Perfil</span>
-    </a>
-  </nav>
 
   <script>
     const SUPABASE_URL = 'https://qxoaavedwbomrhszvgtx.supabase.co';
@@ -510,7 +475,7 @@
 
     let currentOwner = localStorage.getItem('device_owner') || 'Jeremmy';
     let pet = {
-      level: 1, xp: 20, hunger: 85, energy: 90, affection: 95, fun: 80,
+      level: 1, xp: 0, hunger: 100, energy: 100, affection: 100, fun: 100,
       is_sleeping: false, name: 'Mishi'
     };
 
@@ -617,7 +582,7 @@
       }
       if ('vibrate' in navigator) navigator.vibrate(80);
 
-      catElem.style.transform = 'translateY(-20px) rotate(10deg)';
+      catElem.style.transform = 'translateY(-16px) rotate(10deg)';
       dialogue.innerText = `🎾 ¡${pet.name} saltó jugando con ${currentOwner}!`;
 
       setTimeout(() => { catElem.style.transform = ''; }, 350);
@@ -643,7 +608,7 @@
     }
 
     function checkLevelUp() {
-      if (pet.xp >= pet.level * 100) {
+      if (pet.xp >= (pet.level * 100)) {
         pet.level += 1;
         dialogue.innerText = `🎉 ¡${pet.name} subió al Nivel ${pet.level}! Creció gracias a ambos.`;
       }
