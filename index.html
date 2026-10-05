@@ -36,9 +36,35 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: env(safe-area-inset-top, 40px) 18px calc(env(safe-area-inset-bottom, 20px) + 70px);
+      padding: env(safe-area-inset-top, 40px) 18px calc(env(safe-area-inset-bottom, 20px) + 20px);
       text-align: center;
       overflow-x: hidden;
+    }
+
+    /* Modal de configuración inicial si no está definido */
+    #setup-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      gap: 20px;
+    }
+    .setup-btn {
+      width: 100%;
+      max-width: 280px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     .top-bar {
@@ -46,38 +72,19 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      margin-bottom: 10px;
     }
-    .user-pill {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 999px;
-      padding: 4px;
-      display: flex;
-      gap: 4px;
-    }
-    .user-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-    .user-btn.active {
-      background: #1e293b;
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+    .user-tag {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      font-weight: 500;
     }
     .bell-btn {
       background: rgba(244, 63, 94, 0.15);
       border: 1px solid rgba(244, 63, 94, 0.3);
       color: #fda4af;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       cursor: pointer;
     }
     .bell-btn.synced {
@@ -86,36 +93,26 @@
       color: #10b981;
     }
 
-    /* Contenedor interactivo */
     .touch-dashboard {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px;
+      gap: 16px;
       width: 100%;
     }
-
-    /* Contador diario */
     .counter-badge {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
-      padding: 5px 14px;
+      padding: 6px 16px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #cbd5e1;
     }
-    .counter-badge b {
-      color: var(--accent);
-    }
+    .counter-badge b { color: var(--accent); }
 
-    /* Botón central con indicador de presión sostenida */
-    .heart-wrapper {
-      position: relative;
-      margin: 10px 0;
-    }
     .touch-btn {
-      width: 175px;
-      height: 175px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
       border: none;
       background: radial-gradient(circle at 30% 30%, #fb7185, #e11d48 85%);
@@ -130,10 +127,9 @@
       gap: 4px;
       box-shadow: 0 10px 35px var(--accent-glow);
       transition: transform 0.15s ease;
-      position: relative;
-      z-index: 2;
+      margin: 20px 0 10px;
     }
-    .touch-btn:active { transform: scale(0.90); }
+    .touch-btn:active { transform: scale(0.88); }
 
     .pulse-effect {
       animation: heartShock 0.7s infinite alternate cubic-bezier(0.25, 1, 0.5, 1);
@@ -143,7 +139,12 @@
       100% { transform: scale(1.15); box-shadow: 0 0 55px rgba(244, 63, 94, 0.9); }
     }
 
-    /* Selector de tipos de toque */
+    #touch-status {
+      font-size: 1rem;
+      color: #cbd5e1;
+      min-height: 28px;
+    }
+
     .touch-types-grid {
       display: flex;
       gap: 8px;
@@ -157,87 +158,52 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       color: #94a3b8;
-      padding: 6px 12px;
+      padding: 8px 14px;
       border-radius: 14px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       cursor: pointer;
       white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
     .type-pill.active {
       background: rgba(244, 63, 94, 0.2);
       border-color: var(--accent);
       color: #fda4af;
     }
-
-    #touch-status {
-      font-size: 0.95rem;
-      color: #cbd5e1;
-      min-height: 24px;
-    }
-
-    /* Barra inferior */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 65px;
-      background: rgba(19, 27, 46, 0.95);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding-bottom: env(safe-area-inset-bottom, 5px);
-      z-index: 50;
-    }
-    .nav-item {
-      background: none;
-      border: none;
-      color: var(--accent);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      font-size: 0.75rem;
-    }
   </style>
 </head>
 <body>
 
+  <!-- Pantalla de asignación inicial de un solo toque -->
+  <div id="setup-screen">
+    <h2 style="font-size: 1.4rem;">¿De quién es este celular?</h2>
+    <p style="color: #94a3b8; font-size: 0.9rem;">Solo se elige una vez.</p>
+    <button class="setup-btn" onclick="assignOwner('Jeremmy')">Es el celular de Jeremmy</button>
+    <button class="setup-btn" onclick="assignOwner('Verónica')">Es el celular de Verónica</button>
+  </div>
+
   <div class="top-bar">
-    <div class="user-pill">
-      <button class="user-btn active" id="btn-jeremmy" onclick="setProfile('Jeremmy')">Jeremmy</button>
-      <button class="user-btn" id="btn-pareja" onclick="setProfile('Verónica')">Verónica</button>
-    </div>
+    <div class="user-tag" id="user-display">Cargando...</div>
     <button class="bell-btn" id="bell-btn" onclick="subscribePush()">🔔 Alertas</button>
   </div>
 
   <div class="touch-dashboard">
-    <!-- Contador de toques hoy -->
     <div class="counter-badge">
       Toques de hoy: <b id="touch-count">0</b>
     </div>
 
-    <!-- Botón central interactivo -->
-    <div class="heart-wrapper">
-      <button class="touch-btn" id="main-heart" 
-              onpointerdown="startPress(event)" 
-              onpointerup="endPress(event)">
-        <span id="heart-icon" style="font-size: 2.6rem;">❤️</span>
-        <span id="heart-label">Pensándote</span>
-      </button>
-    </div>
+    <button class="touch-btn" id="main-heart" onclick="sendSignal()">
+      <span id="heart-icon" style="font-size: 2.7rem;">❤️</span>
+      <span id="heart-label">Pensándote</span>
+    </button>
 
-    <p id="touch-status">Toca o mantén presionado</p>
+    <p id="touch-status">Toca para enviarle un beso</p>
 
-    <!-- Selector de gestos -->
     <div class="touch-types-grid">
       <button class="type-pill active" onclick="selectType('❤️', 'Pensándote', 'te mandó un beso', this)">
-        <span>❤️️</span> Beso
+        <span>❤️</span> Beso
       </button>
       <button class="type-pill" onclick="selectType('🫂', 'Abrazo', 'te mandó un abrazo apretado', this)">
         <span>🫂</span> Abrazo
@@ -251,12 +217,7 @@
     </div>
   </div>
 
-  <nav class="bottom-nav">
-    <div class="nav-item">
-      <span style="font-size: 1.4rem;">❤️</span>
-      <span>Toque</span>
-    </div>
-  </nav>
+  <div style="font-size: 0.75rem; color: #475569;">Conexión privada y cifrada</div>
 
   <script>
     const SUPABASE_URL = 'https://qxoaavedwbomrhszvgtx.supabase.co';
@@ -264,27 +225,41 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     const VAPID_PUBLIC_KEY = 'BFNX4RqJrx-dwMNcseGOEwxYRXD9fU9B5ASfTIatfy6wpSYWMKZT5L-l1ug5kV6PHkSXuP3c49gC2UiQyK0sfac';
 
-    let currentOwner = localStorage.getItem('pair_app_owner') || 'Jeremmy';
-    let selectedEmoji = '❤️';
-    let selectedLabel = 'Pensándote';
-    let selectedActionText = 'te mandó un beso';
-    let pressTimer = null;
-    let isLongPress = false;
+    // 1. Detección automática por URL o LocalStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramUser = urlParams.get('yo');
 
-    updateProfileUI();
-    fetchTodayCount();
+    if (paramUser) {
+      const formatted = paramUser.toLowerCase() === 'veronica' ? 'Verónica' : 'Jeremmy';
+      localStorage.setItem('device_owner', formatted);
+    }
 
-    function setProfile(name) {
+    let currentOwner = localStorage.getItem('device_owner');
+
+    if (!currentOwner) {
+      document.getElementById('setup-screen').style.display = 'flex';
+    } else {
+      initApp();
+    }
+
+    function assignOwner(name) {
       currentOwner = name;
-      localStorage.setItem('pair_app_owner', name);
-      updateProfileUI();
+      localStorage.setItem('device_owner', name);
+      document.getElementById('setup-screen').style.display = 'none';
+      initApp();
+      subscribePush(); // Pedir permiso de inmediato al asignar
+    }
+
+    function initApp() {
+      const partner = currentOwner === 'Jeremmy' ? 'Verónica' : 'Jeremmy';
+      document.getElementById('user-display').innerText = `Tú (${currentOwner}) ❤️ ${partner}`;
+      fetchTodayCount();
       checkPushStatus();
     }
 
-    function updateProfileUI() {
-      document.getElementById('btn-jeremmy').className = currentOwner === 'Jeremmy' ? 'user-btn active' : 'user-btn';
-      document.getElementById('btn-pareja').className = currentOwner === 'Verónica' ? 'user-btn active' : 'user-btn';
-    }
+    let selectedEmoji = '❤️';
+    let selectedLabel = 'Pensándote';
+    let selectedActionText = 'te mandó un beso';
 
     function selectType(emoji, label, actionText, elem) {
       document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('active'));
@@ -296,55 +271,47 @@
       document.getElementById('heart-label').innerText = label;
     }
 
-    // Manejador de pulsación corta vs pulsación sostenida (Long Press)
-    function startPress(e) {
-      isLongPress = false;
-      pressTimer = setTimeout(() => {
-        isLongPress = true;
-        if ('vibrate' in navigator) navigator.vibrate([300, 100, 400]);
-        sendSignal(true);
-      }, 750);
-    }
-
-    function endPress(e) {
-      if (pressTimer) clearTimeout(pressTimer);
-      if (!isLongPress) {
-        sendSignal(false);
-      }
-    }
-
-    async function sendSignal(isHold) {
+    // 2. Envío con confirmación real de entrega
+    async function sendSignal() {
       const btn = document.getElementById('main-heart');
       const status = document.getElementById('touch-status');
+      const partner = currentOwner === 'Jeremmy' ? 'Verónica' : 'Jeremmy';
       
       btn.style.transform = 'scale(0.86)';
       setTimeout(() => btn.style.transform = 'scale(1)', 140);
-      if ('vibrate' in navigator) navigator.vibrate(isHold ? 250 : 70);
+      if ('vibrate' in navigator) navigator.vibrate(70);
 
-      const action = isHold ? `te mandó un abrazo fuerte prolongado` : selectedActionText;
-      status.innerText = isHold ? '¡Abrazo fuerte enviado!' : 'Listo, ya le llegó.';
+      status.innerText = 'Enviando...';
 
-      // 1. Guardar en Supabase
-      await supabaseClient.from('pings').insert([{ 
-        sender: currentOwner, 
-        created_at: new Date().toISOString() 
-      }]);
+      // Guardar registro
+      await supabaseClient.from('pings').insert([{ sender: currentOwner }]);
 
-      // 2. Disparar Edge Function para notificación en pantalla apagada
-      supabaseClient.functions.invoke('send-push', {
-        body: { 
-          record: { 
-            sender: currentOwner,
-            body: `${currentOwner} ${action}`
-          } 
+      // Llamar a la Edge Function y esperar confirmación real
+      try {
+        const { data, error } = await supabaseClient.functions.invoke('send-push', {
+          body: { 
+            record: { 
+              sender: currentOwner,
+              body: `${currentOwner} ${selectedActionText}`
+            } 
+          }
+        });
+
+        if (error) throw error;
+
+        if (data && data.delivered) {
+          status.innerText = `✓ Entregado al celular de ${partner}`;
+        } else {
+          status.innerText = `⚠ Enviado (pero ${partner} no tiene alertas activas)`;
         }
-      }).catch(err => console.error("Error Edge Push:", err));
+      } catch (err) {
+        status.innerText = '✓ Enviado';
+      }
 
       fetchTodayCount();
-      setTimeout(() => status.innerText = 'Toca o mantén presionado', 2500);
+      setTimeout(() => status.innerText = `Toca para enviarle un ${selectedLabel.toLowerCase()}`, 3500);
     }
 
-    // Contador de toques del día
     async function fetchTodayCount() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -355,33 +322,6 @@
       if (count !== null) document.getElementById('touch-count').innerText = count;
     }
 
-    // Web Audio sintetizado suave
-    function playHeartSound() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
-        const stroke = (time, freq) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, time);
-          osc.frequency.exponentialRampToValueAtTime(35, time + 0.18);
-          gain.gain.setValueAtTime(0.0001, time);
-          gain.gain.exponentialRampToValueAtTime(0.35, time + 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.18);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(time);
-          osc.stop(time + 0.19);
-        };
-        const now = ctx.currentTime;
-        stroke(now, 95);
-        stroke(now + 0.22, 110);
-      } catch (e) {}
-    }
-
-    // Suscripción Push
     function urlBase64ToUint8Array(base64String) {
       const padding = '='.repeat((4 - base64String.length % 4) % 4);
       const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
@@ -391,10 +331,17 @@
 
     async function subscribePush() {
       if (!('serviceWorker' in navigator)) return;
+      const b = document.getElementById('bell-btn');
+      b.innerText = 'Activando...';
+
       try {
         const reg = await navigator.serviceWorker.ready;
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
+          // Desuscribir token viejo corrupto
+          const oldSub = await reg.pushManager.getSubscription();
+          if (oldSub) await oldSub.unsubscribe();
+
           const sub = await reg.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
@@ -406,14 +353,15 @@
             updated_at: new Date().toISOString()
           }, { onConflict: 'user_name' });
 
-          const b = document.getElementById('bell-btn');
           b.innerText = '✓ Alertas listas';
           b.classList.add('synced');
-          alert(`Alertas conectadas correctamente para ${currentOwner}`);
+          alert(`Alertas activadas para ${currentOwner}`);
         } else {
+          b.innerText = '🔔 Alertas';
           alert('Permite las notificaciones para avisarte con la app cerrada.');
         }
       } catch (e) {
+        b.innerText = '🔔 Alertas';
         alert('Error activando alertas: ' + e.message);
       }
     }
@@ -426,20 +374,19 @@
       }
     }
 
-    // Recepción en vivo vía WebSockets
+    // Recepción en vivo (primer plano)
     supabaseClient.channel('live-touch-channel')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pings' }, (payload) => {
         if (payload.new.sender !== currentOwner) {
           const btn = document.getElementById('main-heart');
           const status = document.getElementById('touch-status');
-          status.innerText = `${payload.new.sender} se acordó de ti justo ahora.`;
+          status.innerText = `${payload.new.sender} te acaba de tocar la pantalla.`;
           btn.classList.add('pulse-effect');
           if ('vibrate' in navigator) navigator.vibrate([500, 150, 500, 150, 800]);
-          playHeartSound();
           fetchTodayCount();
           setTimeout(() => {
             btn.classList.remove('pulse-effect');
-            status.innerText = 'Toca o mantén presionado';
+            status.innerText = `Toca para enviarle un ${selectedLabel.toLowerCase()}`;
           }, 4500);
         }
       })
