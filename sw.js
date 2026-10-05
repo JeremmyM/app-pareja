@@ -1,5 +1,5 @@
 // Sube este número cada vez que quieras forzar una actualización en los celulares (v1.0.4, v1.0.5...)
-const CACHE_NAME = 'nosotros-cache-v1.0.4';
+const CACHE_NAME = 'nosotros-cache-v1.0.5';
 
 self.addEventListener('install', (event) => {
   // Obliga al Service Worker a instalarse inmediatamente sin esperar

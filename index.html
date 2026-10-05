@@ -14,7 +14,7 @@
   <style>
     :root {
       --bg: #070a13;
-      --card-bg: rgba(19, 27, 46, 0.7);
+      --card-bg: rgba(19, 27, 46, 0.75);
       --card-border: rgba(255, 255, 255, 0.08);
       --accent: #f43f5e;
       --accent-soft: rgba(244, 63, 94, 0.15);
@@ -40,9 +40,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: env(safe-area-inset-top, 42px) 20px calc(env(safe-area-inset-bottom, 20px) + 20px);
+      padding: env(safe-area-inset-top, 42px) 18px calc(env(safe-area-inset-bottom, 20px) + 75px);
       text-align: center;
-      overflow: hidden;
+      overflow-x: hidden;
       position: relative;
     }
 
@@ -56,6 +56,7 @@
       z-index: 1;
     }
 
+    /* Asignación inicial de dispositivo */
     #setup-screen {
       position: fixed;
       inset: 0;
@@ -80,16 +81,16 @@
       font-weight: 600;
       cursor: pointer;
       backdrop-filter: blur(10px);
-      transition: all 0.2s ease;
     }
-    .setup-btn:active { transform: scale(0.96); background: rgba(244, 63, 94, 0.2); }
 
+    /* Barra Superior */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      z-index: 2;
+      z-index: 10;
+      margin-bottom: 12px;
     }
     .presence-badge {
       display: inline-flex;
@@ -101,7 +102,6 @@
       border-radius: 999px;
       backdrop-filter: blur(8px);
       font-size: 0.8rem;
-      font-weight: 500;
     }
     .presence-dot {
       width: 7px;
@@ -109,11 +109,6 @@
       border-radius: 50%;
       background: #10b981;
       box-shadow: 0 0 8px #10b981;
-      animation: pulse-dot 2s infinite ease-in-out;
-    }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 0.6; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.15); }
     }
 
     .top-actions {
@@ -129,13 +124,7 @@
       border-radius: 999px;
       font-size: 0.85rem;
       cursor: pointer;
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
     }
-    .icon-btn:active { transform: scale(0.92); }
     .bell-btn {
       background: var(--accent-soft);
       border: 1px solid rgba(244, 63, 94, 0.35);
@@ -144,8 +133,6 @@
       border-radius: 999px;
       font-size: 0.78rem;
       cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.2s ease;
     }
     .bell-btn.synced {
       background: transparent;
@@ -153,15 +140,20 @@
       color: #10b981;
     }
 
-    .touch-dashboard {
-      display: flex;
+    /* Paneles de Vistas */
+    .tab-panel {
+      display: none;
+      width: 100%;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
-      width: 100%;
-      z-index: 2;
+      gap: 16px;
+      z-index: 5;
+    }
+    .tab-panel.active {
+      display: flex;
     }
 
+    /* SECCIÓN 1: TOQUE */
     .sync-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -171,7 +163,6 @@
       align-items: center;
       gap: 16px;
       backdrop-filter: blur(12px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
     .sync-metric {
       display: flex;
@@ -182,7 +173,6 @@
       font-size: 0.7rem;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
     .sync-metric span.value {
       font-size: 1.15rem;
@@ -192,8 +182,8 @@
 
     .heart-container {
       position: relative;
-      width: 220px;
-      height: 220px;
+      width: 210px;
+      height: 210px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -201,24 +191,20 @@
     }
     .pulse-ring {
       position: absolute;
-      width: 200px;
-      height: 200px;
+      width: 190px;
+      height: 190px;
       border-radius: 50%;
       border: 2px solid rgba(244, 63, 94, 0.25);
       animation: ripple 3s infinite cubic-bezier(0.1, 0.2, 0.4, 1);
-    }
-    .pulse-ring:nth-child(2) {
-      animation-delay: 1.5s;
     }
     @keyframes ripple {
       0% { transform: scale(0.9); opacity: 0.8; }
       100% { transform: scale(1.45); opacity: 0; }
     }
-
     .charge-svg {
       position: absolute;
-      width: 210px;
-      height: 210px;
+      width: 200px;
+      height: 200px;
       transform: rotate(-90deg);
       pointer-events: none;
     }
@@ -231,10 +217,9 @@
       stroke-linecap: round;
       transition: stroke-dashoffset 0.05s linear;
     }
-
     .touch-btn {
-      width: 170px;
-      height: 170px;
+      width: 165px;
+      height: 165px;
       border-radius: 50%;
       border: none;
       background: radial-gradient(circle at 35% 30%, #fb7185, #e11d48 85%);
@@ -246,24 +231,16 @@
       justify-content: center;
       gap: 4px;
       box-shadow: 0 12px 35px var(--accent-glow);
-      transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.18s ease;
       z-index: 3;
     }
     .touch-btn:active { transform: scale(0.91); }
-
     .pulse-effect {
       animation: heartShock 0.65s infinite alternate cubic-bezier(0.25, 1, 0.5, 1);
     }
     @keyframes heartShock {
       0% { transform: scale(1); box-shadow: 0 0 20px var(--accent-glow); }
       100% { transform: scale(1.16); box-shadow: 0 0 65px rgba(244, 63, 94, 0.95); }
-    }
-
-    #touch-status {
-      font-size: 0.95rem;
-      color: #e2e8f0;
-      min-height: 26px;
-      font-weight: 500;
     }
 
     .touch-types-grid {
@@ -282,27 +259,103 @@
       padding: 8px 14px;
       border-radius: 14px;
       font-size: 0.8rem;
-      font-weight: 500;
       cursor: pointer;
       white-space: nowrap;
       display: flex;
       align-items: center;
       gap: 6px;
-      backdrop-filter: blur(8px);
-      transition: all 0.2s ease;
     }
     .type-pill.active {
       background: var(--accent-soft);
       border-color: var(--accent);
       color: #fda4af;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.25);
     }
 
-    .footer-note {
-      font-size: 0.72rem;
-      color: #475569;
-      z-index: 2;
+    /* SECCIÓN 2: PIZARRA EN VIVO */
+    .board-wrapper {
+      width: 100%;
+      max-width: 380px;
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    #paint-canvas {
+      width: 100%;
+      height: 340px;
+      background: #090d16;
+      touch-action: none;
+      cursor: crosshair;
+    }
+    .board-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--card-bg);
+      border-top: 1px solid var(--card-border);
+    }
+    .color-picker-row {
+      display: flex;
+      gap: 8px;
+    }
+    .color-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .color-circle.active {
+      border-color: white;
+      transform: scale(1.15);
+    }
+    .board-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    /* Barra Inferior de Navegación */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: env(safe-area-inset-bottom, 5px);
+      z-index: 50;
+    }
+    .nav-item {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      width: 50%;
+    }
+    .nav-item.active {
+      color: var(--accent);
+    }
+    .nav-item span.icon {
+      font-size: 1.35rem;
     }
   </style>
 </head>
@@ -312,7 +365,7 @@
 
   <div id="setup-screen">
     <h2 style="font-size: 1.4rem;">¿De quién es este celular?</h2>
-    <p style="color: var(--text-muted); font-size: 0.9rem;">Configuración única de inicio.</p>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">Configuración de inicio.</p>
     <button class="setup-btn" onclick="assignOwner('Jeremmy')">Es el celular de Jeremmy</button>
     <button class="setup-btn" onclick="assignOwner('Verónica')">Es el celular de Verónica</button>
   </div>
@@ -324,15 +377,13 @@
     </div>
     
     <div class="top-actions">
-      <!-- Botón de recarga forzada (Especial para iPhone sin pull-to-refresh) -->
-      <button class="icon-btn" id="reload-btn" onclick="forceAppRefresh(this)" title="Recargar y buscar actualización">
-        🔄
-      </button>
+      <button class="icon-btn" onclick="forceAppRefresh(this)" title="Recargar">🔄</button>
       <button class="bell-btn" id="bell-btn" onclick="subscribePush()">🔔 Alertas</button>
     </div>
   </div>
 
-  <div class="touch-dashboard">
+  <!-- PESTAÑA 1: TOQUE -->
+  <div class="tab-panel active" id="tab-touch">
     <div class="sync-card">
       <div class="sync-metric">
         <span class="label">Toques hoy</span>
@@ -348,21 +399,19 @@
     <div class="heart-container">
       <div class="pulse-ring"></div>
       <div class="pulse-ring"></div>
-      
       <svg class="charge-svg">
-        <circle class="charge-circle" id="charge-progress" cx="105" cy="105" r="95"></circle>
+        <circle class="charge-circle" id="charge-progress" cx="100" cy="100" r="90"></circle>
       </svg>
-
       <button class="touch-btn" id="main-heart"
               onpointerdown="startHeartPress(event)"
               onpointerup="endHeartPress(event)"
               onpointerleave="cancelHeartPress(event)">
-        <span id="heart-icon" style="font-size: 2.8rem;">❤️</span>
-        <span id="heart-label" style="font-weight: 700; font-size: 0.95rem;">Beso</span>
+        <span id="heart-icon" style="font-size: 2.7rem;">❤️</span>
+        <span id="heart-label" style="font-weight: 700; font-size: 0.9rem;">Beso</span>
       </button>
     </div>
 
-    <p id="touch-status">Toca suave o mantén para un abrazo</p>
+    <p id="touch-status" style="font-size: 0.95rem; color: #e2e8f0; min-height: 26px;">Toca o mantén presionado</p>
 
     <div class="touch-types-grid">
       <button class="type-pill active" onclick="selectType('❤️', 'Beso', 'te mandó un beso', this)">
@@ -380,7 +429,37 @@
     </div>
   </div>
 
-  <div class="footer-note">Canal privado y cifrado en tiempo real</div>
+  <!-- PESTAÑA 2: PIZARRA EN VIVO -->
+  <div class="tab-panel" id="tab-board">
+    <div class="board-wrapper">
+      <canvas id="paint-canvas"></canvas>
+      <div class="board-controls">
+        <div class="color-picker-row">
+          <div class="color-circle active" style="background: #f43f5e;" onclick="setColor('#f43f5e', this)"></div>
+          <div class="color-circle" style="background: #38bdf8;" onclick="setColor('#38bdf8', this)"></div>
+          <div class="color-circle" style="background: #facc15;" onclick="setColor('#facc15', this)"></div>
+          <div class="color-circle" style="background: #ffffff;" onclick="setColor('#ffffff', this)"></div>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button class="board-btn" onclick="clearBoard(true)">🗑️ Borrar</button>
+          <button class="board-btn" onclick="saveBoardSnapshot()">💾 Guardar</button>
+        </div>
+      </div>
+    </div>
+    <p id="board-status" style="font-size: 0.8rem; color: #94a3b8;">Dibuja algo, se ve al instante en su pantalla.</p>
+  </div>
+
+  <!-- NAVEGACIÓN INFERIOR -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('tab-touch', this)">
+      <span class="icon">❤️</span>
+      <span>Toque</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('tab-board', this)">
+      <span class="icon">🎨</span>
+      <span>Pizarra</span>
+    </button>
+  </nav>
 
   <script>
     const SUPABASE_URL = 'https://qxoaavedwbomrhszvgtx.supabase.co';
@@ -388,7 +467,7 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     const VAPID_PUBLIC_KEY = 'BFNX4RqJrx-dwMNcseGOEwxYRXD9fU9B5ASfTIatfy6wpSYWMKZT5L-l1ug5kV6PHkSXuP3c49gC2UiQyK0sfac';
 
-    // 1. Detección y Asignación de Identidad Fija
+    // 1. Identidad de dispositivo
     const urlParams = new URLSearchParams(window.location.search);
     const paramUser = urlParams.get('yo');
     if (paramUser) {
@@ -418,9 +497,22 @@
       fetchTodayMetrics();
       checkPushStatus();
       initParticles();
+      initBoard();
     }
 
-    // 2. Sistema de Partículas en Canvas
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+
+      if (tabId === 'tab-board') {
+        resizeBoardCanvas();
+        loadSavedBoard();
+      }
+    }
+
+    // 2. Partículas
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -432,22 +524,19 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    function initParticles() {
-      requestAnimationFrame(renderParticles);
-    }
+    function initParticles() { requestAnimationFrame(renderParticles); }
 
     function spawnHeartParticles(x, y, count = 12, char = '❤️') {
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = Math.random() * 3 + 1.5;
         particles.push({
-          x: x,
-          y: y,
+          x, y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed - 1.5,
           alpha: 1,
           size: Math.random() * 10 + 16,
-          char: char
+          char
         });
       }
     }
@@ -459,19 +548,17 @@
         p.x += p.vx;
         p.y += p.vy;
         p.alpha -= 0.018;
-
         ctx.save();
         ctx.globalAlpha = Math.max(0, p.alpha);
         ctx.font = `${p.size}px sans-serif`;
         ctx.fillText(p.char, p.x, p.y);
         ctx.restore();
-
         if (p.alpha <= 0) particles.splice(i, 1);
       }
       requestAnimationFrame(renderParticles);
     }
 
-    // 3. Selector de Gestos
+    // 3. Toques y Gestos
     let selectedEmoji = '❤️';
     let selectedLabel = 'Beso';
     let selectedActionText = 'te mandó un beso';
@@ -486,7 +573,6 @@
       document.getElementById('heart-label').innerText = label;
     }
 
-    // 4. Toque Sostenido (Long Press) y Envío
     let pressTimer = null;
     let pressStartTime = 0;
     let isLongHold = false;
@@ -496,13 +582,10 @@
       pressStartTime = Date.now();
       isLongHold = false;
       const circle = document.getElementById('charge-progress');
-
       pressTimer = setInterval(() => {
         const elapsed = Date.now() - pressStartTime;
         const progress = Math.min(1, elapsed / holdDuration);
-        const offset = 628 - (progress * 628);
-        circle.style.strokeDashoffset = offset;
-
+        circle.style.strokeDashoffset = 628 - (progress * 628);
         if (progress >= 1 && !isLongHold) {
           isLongHold = true;
           if ('vibrate' in navigator) navigator.vibrate([300, 100, 450]);
@@ -516,7 +599,6 @@
       const circle = document.getElementById('charge-progress');
       circle.style.strokeDashoffset = 628;
       if (pressTimer) clearInterval(pressTimer);
-
       if (!isLongHold) {
         triggerSend(false, e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
       }
@@ -542,36 +624,23 @@
 
       const action = isHold ? 'te mandó un abrazo apretado prolongado' : selectedActionText;
 
-      // Guardar registro
       await supabaseClient.from('pings').insert([{ sender: currentOwner }]);
 
-      // Disparar Edge Function con confirmación de entrega real
       try {
         const { data } = await supabaseClient.functions.invoke('send-push', {
-          body: {
-            record: {
-              sender: currentOwner,
-              body: `${currentOwner} ${action}`
-            }
-          }
+          body: { record: { sender: currentOwner, body: `${currentOwner} ${action}` } }
         });
-
-        if (data && data.delivered) {
-          status.innerText = `✓ Entregado al celular de ${partner}`;
-        } else {
-          status.innerText = `⚠ Enviado (Esperando que ${partner} active alertas)`;
-        }
+        if (data && data.delivered) status.innerText = `✓ Entregado al celular de ${partner}`;
+        else status.innerText = `⚠ Enviado (Esperando que ${partner} active alertas)`;
       } catch (e) {
         status.innerText = '✓ Enviado';
       }
 
       fetchTodayMetrics();
-      setTimeout(() => {
-        status.innerText = 'Toca suave o mantén para un abrazo';
-      }, 3500);
+      setTimeout(() => { status.innerText = 'Toca o mantén presionado'; }, 3500);
     }
 
-    // 5. Métricas de Toques y Hora
+    // 4. Métricas de Toques: Solo cuenta desde las 00:00:00 de hoy
     async function fetchTodayMetrics() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -596,7 +665,155 @@
       }
     }
 
-    // 6. Suscripción Push
+    // 5. Motor de Pizarra en Vivo (WebSockets Broadcast en tiempo real)
+    const boardCanvas = document.getElementById('paint-canvas');
+    const boardCtx = boardCanvas.getContext('2d');
+    let isDrawing = false;
+    let currentColor = '#f43f5e';
+    let currentLineWidth = 4;
+    let lastX = 0;
+    let lastY = 0;
+    let whiteboardChannel = null;
+
+    function resizeBoardCanvas() {
+      const rect = boardCanvas.getBoundingClientRect();
+      if (boardCanvas.width !== rect.width || boardCanvas.height !== rect.height) {
+        // Guardar dibujo previo al redimensionar
+        const temp = boardCtx.getImageData(0, 0, boardCanvas.width, boardCanvas.height);
+        boardCanvas.width = rect.width;
+        boardCanvas.height = rect.height;
+        boardCtx.putImageData(temp, 0, 0);
+        boardCtx.lineCap = 'round';
+        boardCtx.lineJoin = 'round';
+      }
+    }
+
+    function setColor(color, elem) {
+      currentColor = color;
+      document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('active'));
+      elem.classList.add('active');
+    }
+
+    function initBoard() {
+      boardCtx.lineCap = 'round';
+      boardCtx.lineJoin = 'round';
+
+      // Eventos Táctiles y de Ratón
+      const startDraw = (e) => {
+        isDrawing = true;
+        const pos = getPos(e);
+        lastX = pos.x;
+        lastY = pos.y;
+      };
+
+      const draw = (e) => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+
+        drawLine(lastX, lastY, pos.x, pos.y, currentColor, currentLineWidth, true);
+
+        lastX = pos.x;
+        lastY = pos.y;
+      };
+
+      const stopDraw = () => { isDrawing = false; };
+
+      boardCanvas.addEventListener('pointerdown', startDraw);
+      boardCanvas.addEventListener('pointermove', draw);
+      window.addEventListener('pointerup', stopDraw);
+
+      // Canal Supabase Realtime para la pizarra
+      whiteboardChannel = supabaseClient.channel('whiteboard-live', {
+        config: { broadcast: { self: false } }
+      });
+
+      whiteboardChannel
+        .on('broadcast', { event: 'draw-line' }, ({ payload }) => {
+          // Re-escalar coordenadas normalizadas para que se vean idénticas en cualquier pantalla
+          const w = boardCanvas.width;
+          const h = boardCanvas.height;
+          drawLine(payload.x0 * w, payload.y0 * h, payload.x1 * w, payload.y1 * h, payload.color, payload.width, false);
+        })
+        .on('broadcast', { event: 'clear-board' }, () => {
+          clearBoard(false);
+        })
+        .subscribe();
+    }
+
+    function getPos(e) {
+      const rect = boardCanvas.getBoundingClientRect();
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    }
+
+    function drawLine(x0, y0, x1, y1, color, width, broadcast = true) {
+      boardCtx.strokeStyle = color;
+      boardCtx.lineWidth = width;
+      boardCtx.beginPath();
+      boardCtx.moveTo(x0, y0);
+      boardCtx.lineTo(x1, y1);
+      boardCtx.stroke();
+
+      if (broadcast && whiteboardChannel) {
+        // Enviar coordenadas normalizadas de 0 a 1
+        const w = boardCanvas.width;
+        const h = boardCanvas.height;
+        whiteboardChannel.send({
+          type: 'broadcast',
+          event: 'draw-line',
+          payload: {
+            x0: x0 / w, y0: y0 / h,
+            x1: x1 / w, y1: y1 / h,
+            color, width
+          }
+        });
+      }
+    }
+
+    function clearBoard(broadcast = true) {
+      boardCtx.clearRect(0, 0, boardCanvas.width, boardCanvas.height);
+      if (broadcast && whiteboardChannel) {
+        whiteboardChannel.send({
+          type: 'broadcast',
+          event: 'clear-board',
+          payload: {}
+        });
+        document.getElementById('board-status').innerText = 'Pizarra limpiada.';
+        setTimeout(() => { document.getElementById('board-status').innerText = 'Dibuja algo, se ve al instante en su pantalla.'; }, 2000);
+      }
+    }
+
+    async function saveBoardSnapshot() {
+      const dataUrl = boardCanvas.toDataURL('image/png', 0.5);
+      const status = document.getElementById('board-status');
+      status.innerText = 'Guardando...';
+
+      await supabaseClient.from('whiteboard_state').upsert({
+        id: 1,
+        image_data: dataUrl,
+        updated_by: currentOwner,
+        updated_at: new Date().toISOString()
+      });
+
+      status.innerText = '✓ Pizarra guardada para ambos.';
+      setTimeout(() => { status.innerText = 'Dibuja algo, se ve al instante en su pantalla.'; }, 2500);
+    }
+
+    async function loadSavedBoard() {
+      const { data } = await supabaseClient.from('whiteboard_state').select('image_data').eq('id', 1).single();
+      if (data && data.image_data && data.image_data.length > 50) {
+        const img = new Image();
+        img.onload = () => {
+          boardCtx.clearRect(0, 0, boardCanvas.width, boardCanvas.height);
+          boardCtx.drawImage(img, 0, 0, boardCanvas.width, boardCanvas.height);
+        };
+        img.src = data.image_data;
+      }
+    }
+
+    // 6. Push & Service Worker
     function urlBase64ToUint8Array(base64String) {
       const padding = '='.repeat((4 - base64String.length % 4) % 4);
       const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
@@ -646,7 +863,7 @@
       }
     }
 
-    // 7. Recepción en Vivo vía WebSockets
+    // Escucha en Vivo de Toques
     supabaseClient.channel('live-touch-channel')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pings' }, (payload) => {
         if (payload.new.sender !== currentOwner) {
@@ -654,60 +871,46 @@
           const status = document.getElementById('touch-status');
           status.innerText = `${payload.new.sender} te acaba de tocar la pantalla.`;
           btn.classList.add('pulse-effect');
-
           if ('vibrate' in navigator) navigator.vibrate([500, 150, 500, 150, 800]);
 
           const rect = btn.getBoundingClientRect();
           spawnHeartParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, '❤️');
-
           fetchTodayMetrics();
 
           setTimeout(() => {
             btn.classList.remove('pulse-effect');
-            status.innerText = 'Toca suave o mantén para un abrazo';
+            status.innerText = 'Toca o mantén presionado';
           }, 4500);
         }
       })
       .subscribe();
 
-    // 8. Solución para iPhone: Función de recarga forzada manual
     async function forceAppRefresh(btn) {
       if (btn) {
         btn.style.transform = 'rotate(360deg)';
         btn.style.transition = 'transform 0.6s ease';
       }
-
       if ('serviceWorker' in navigator) {
         const reg = await navigator.serviceWorker.getRegistration();
-        if (reg) {
-          await reg.update();
-        }
+        if (reg) await reg.update();
       }
-
       if ('caches' in window) {
         const keys = await caches.keys();
         await Promise.all(keys.map(k => caches.delete(k)));
       }
-
-      setTimeout(() => {
-        window.location.reload(true);
-      }, 300);
+      setTimeout(() => { window.location.reload(true); }, 300);
     }
 
-    // 9. Ciclo de auto-actualización sin fricción
     if ('serviceWorker' in navigator) {
       let refreshing = false;
-
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
           refreshing = true;
           window.location.reload();
         }
       });
-
       navigator.serviceWorker.register('sw.js').then((registration) => {
         registration.update();
-
         registration.addEventListener('updatefound', () => {
           const newWorker = registration.installing;
           newWorker.addEventListener('statechange', () => {
@@ -716,7 +919,6 @@
             }
           });
         });
-
         checkPushStatus();
       });
     }
