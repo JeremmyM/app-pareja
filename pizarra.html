@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Pizarra - Nosotros</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #070a13;
+      --card-bg: rgba(19, 27, 46, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #f43f5e;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 42px) 18px calc(env(safe-area-inset-bottom, 20px) + 75px);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .presence-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+    .presence-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    .board-container {
+      width: 100%;
+      flex: 1;
+      background: #090d16;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      margin-bottom: 10px;
+    }
+    #draw-canvas {
+      width: 100%;
+      flex: 1;
+      touch-action: none;
+      background: #090d16;
+      cursor: crosshair;
+    }
+    .board-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border-top: 1px solid var(--card-border);
+    }
+    .color-picker-row {
+      display: flex;
+      gap: 10px;
+    }
+    .color-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .color-circle.active {
+      border-color: white;
+      transform: scale(1.15);
+    }
+    .board-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: env(safe-area-inset-bottom, 5px);
+      z-index: 50;
+    }
+    .nav-item {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      text-decoration: none;
+      width: 50%;
+    }
+    .nav-item.active { color: var(--accent); }
+    .nav-item span.icon { font-size: 1.35rem; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="presence-badge">
+      <div class="presence-dot"></div>
+      <span id="user-display">Pizarra Compartida</span>
+    </div>
+    <span style="font-size: 0.75rem; color: #94a3b8;" id="board-status">Sincronizado</span>
+  </div>
+
+  <div class="board-container">
+    <canvas id="draw-canvas"></canvas>
+    <div class="board-controls">
+      <div class="color-picker-row">
+        <div class="color-circle active" style="background: #f43f5e;" onclick="setColor('#f43f5e', this)"></div>
+        <div class="color-circle" style="background: #38bdf8;" onclick="setColor('#38bdf8', this)"></div>
+        <div class="color-circle" style="background: #facc15;" onclick="setColor('#facc15', this)"></div>
+        <div class="color-circle" style="background: #ffffff;" onclick="setColor('#ffffff', this)"></div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="board-btn" onclick="clearCanvas(true)">🗑️️ Borrar</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="icon">❤️</span>
+      <span>Toque</span>
+    </a>
+    <a href="pizarra.html" class="nav-item active">
+      <span class="icon">🎨</span>
+      <span>Pizarra</span>
+    </a>
+  </nav>
+
+  <script>
+    const SUPABASE_URL = 'https://qxoaavedwbomrhszvgtx.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4b2FhdmVkd2JvbXJoc3p2Z3R4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMjY2NDksImV4cCI6MjEwNjcwMjY0OX0.XtQDxQchFLNB4ywhHKHvoR4aqOEyMVmoc1tBeQ1KHR8';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const canvas = document.getElementById('draw-canvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let currentColor = '#f43f5e';
+    let lastX = 0;
+    let lastY = 0;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+    window.addEventListener('resize', resizeCanvas);
+    setTimeout(resizeCanvas, 50);
+
+    function setColor(color, elem) {
+      currentColor = color;
+      document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('active'));
+      elem.classList.add('active');
+    }
+
+    // WebSockets Broadcast en tiempo real
+    const channel = supabaseClient.channel('whiteboard-live', {
+      config: { broadcast: { self: false } }
+    });
+
+    channel
+      .on('broadcast', { event: 'draw' }, ({ payload }) => {
+        const w = canvas.width;
+        const h = canvas.height;
+        drawStroke(payload.x0 * w, payload.y0 * h, payload.x1 * w, payload.y1 * h, payload.color, false);
+      })
+      .on('broadcast', { event: 'clear' }, () => {
+        clearCanvas(false);
+      })
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          document.getElementById('board-status').innerText = 'En vivo';
+        }
+      });
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    canvas.addEventListener('pointerdown', (e) => {
+      isDrawing = true;
+      const pos = getPos(e);
+      lastX = pos.x;
+      lastY = pos.y;
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      if (!isDrawing) return;
+      const pos = getPos(e);
+      drawStroke(lastX, lastY, pos.x, pos.y, currentColor, true);
+      lastX = pos.x;
+      lastY = pos.y;
+    });
+
+    window.addEventListener('pointerup', () => { isDrawing = false; });
+    window.addEventListener('pointercancel', () => { isDrawing = false; });
+
+    function drawStroke(x0, y0, x1, y1, color, broadcast = true) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+
+      if (broadcast && channel) {
+        channel.send({
+          type: 'broadcast',
+          event: 'draw',
+          payload: {
+            x0: x0 / canvas.width,
+            y0: y0 / canvas.height,
+            x1: x1 / canvas.width,
+            y1: y1 / canvas.height,
+            color
+          }
+        });
+      }
+    }
+
+    function clearCanvas(broadcast = true) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (broadcast && channel) {
+        channel.send({ type: 'broadcast', event: 'clear', payload: {} });
+      }
+    }
+  </script>
+</body>
+</html>
