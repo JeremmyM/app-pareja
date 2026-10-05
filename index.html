@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Nosotros</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Nosotros">
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #131b2e;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #f43f5e;
+      --accent-glow: rgba(244, 63, 94, 0.5);
+      --text: #f8fafc;
+      --text-muted: #64748b;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 40px) 18px calc(env(safe-area-inset-bottom, 20px) + 70px);
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .user-pill {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+    }
+    .user-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .user-btn.active {
+      background: #1e293b;
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .bell-btn {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #fda4af;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .bell-btn.synced {
+      background: transparent;
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10b981;
+    }
+
+    .view-panel {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .view-panel.active {
+      display: flex;
+    }
+
+    .touch-btn {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: none;
+      background: radial-gradient(circle at 30% 30%, #fb7185, #e11d48 85%);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 10px 35px var(--accent-glow);
+      transition: transform 0.15s ease;
+      margin: 40px 0 15px;
+    }
+    .touch-btn:active { transform: scale(0.88); }
+    
+    .received-pulse {
+      animation: deepHeartbeat 0.7s infinite alternate cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    @keyframes deepHeartbeat {
+      0% { transform: scale(1); box-shadow: 0 0 20px var(--accent-glow); }
+      50% { transform: scale(1.18); box-shadow: 0 0 60px rgba(244, 63, 94, 0.85); }
+      100% { transform: scale(1.08); box-shadow: 0 0 40px var(--accent-glow); }
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: rgba(19, 27, 46, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: env(safe-area-inset-bottom, 5px);
+      z-index: 50;
+    }
+    .nav-item {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+    .nav-item.active { color: var(--accent); }
+    .nav-item span.icon { font-size: 1.3rem; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="user-pill">
+      <button class="user-btn active" id="btn-jeremmy" onclick="setProfile('Jeremmy')">Jeremmy</button>
+      <button class="user-btn" id="btn-pareja" onclick="setProfile('Verónica')">Verónica</button>
+    </div>
+    <button class="bell-btn" id="bell-btn" onclick="subscribePush()">🔔 Alertas</button>
+  </div>
+
+  <div class="view-panel active" id="view-touch">
+    <button class="touch-btn" id="main-heart" onclick="sendTouch()">
+      <span style="font-size: 2.5rem;">❤️</span>
+      <span>Pensándote</span>
+    </button>
+    <p id="touch-status" style="color: #cbd5e1; font-size: 1.05rem; min-height: 28px;">Toca para avisarle</p>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('view-touch', this)">
+      <span class="icon">❤️</span>
+      <span>Toque</span>
+    </button>
+  </nav>
+
+  <script>
+    const SUPABASE_URL = 'https://qxoaavedwbomrhszvgtx.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4b2FhdmVkd2JvbXJoc3p2Z3R4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMjY2NDksImV4cCI6MjEwNjcwMjY0OX0.XtQDxQchFLNB4ywhHKHvoR4aqOEyMVmoc1tBeQ1KHR8';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const VAPID_PUBLIC_KEY = 'BFNX4RqJrx-dwMNcseGOEwxYRXD9fU9B5ASfTIatfy6wpSYWMKZT5L-l1ug5kV6PHkSXuP3c49gC2UiQyK0sfac';
+
+    let currentOwner = localStorage.getItem('pair_app_owner') || 'Jeremmy';
+    updateProfileUI();
+
+    function setProfile(name) {
+      currentOwner = name;
+      localStorage.setItem('pair_app_owner', name);
+      updateProfileUI();
+      checkPushStatus();
+    }
+
+    function updateProfileUI() {
+      document.getElementById('btn-jeremmy').className = currentOwner === 'Jeremmy' ? 'user-btn active' : 'user-btn';
+      document.getElementById('btn-pareja').className = currentOwner === 'Verónica' ? 'user-btn active' : 'user-btn';
+    }
+
+    function switchTab(viewId, btn) {
+      document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function triggerHeavyVibration() {
+      if ('vibrate' in navigator) {
+        navigator.vibrate([600, 200, 600, 200, 900]);
+      }
+    }
+
+    // Sonido armónico orgánico con Web Audio API (cero chasquidos)
+    function playHeartSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+
+        const stroke = (time, freq) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, time);
+          osc.frequency.exponentialRampToValueAtTime(35, time + 0.18);
+
+          gain.gain.setValueAtTime(0.0001, time);
+          gain.gain.exponentialRampToValueAtTime(0.35, time + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.18);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(time);
+          osc.stop(time + 0.19);
+        };
+
+        const now = ctx.currentTime;
+        stroke(now, 95);
+        stroke(now + 0.22, 110);
+      } catch (e) {
+        console.error("Audio no permitido aún:", e);
+      }
+    }
+
+    async function sendTouch() {
+      const btn = document.getElementById('main-heart');
+      const label = document.getElementById('touch-status');
+      
+      btn.style.transform = 'scale(0.85)';
+      setTimeout(() => btn.style.transform = 'scale(1)', 140);
+      
+      if ('vibrate' in navigator) navigator.vibrate(80);
+
+      label.innerText = 'Listo, ya le sonó.';
+      
+      await supabaseClient.from('pings').insert([{ sender: currentOwner }]);
+
+      supabaseClient.functions.invoke('send-push', {
+        body: { record: { sender: currentOwner } }
+      }).catch(err => console.error("Error Edge Push:", err));
+
+      setTimeout(() => {
+        label.innerText = 'Toca para avisarle';
+      }, 2500);
+    }
+
+    function urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+      const rawData = window.atob(base64);
+      return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+    }
+
+    async function subscribePush() {
+      if (!('serviceWorker' in navigator)) return;
+      try {
+        const reg = await navigator.serviceWorker.ready;
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+          });
+
+          await supabaseClient.from('push_subscriptions').upsert({
+            user_name: currentOwner,
+            subscription: sub.toJSON(),
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'user_name' });
+
+          const b = document.getElementById('bell-btn');
+          b.innerText = '✓ Alertas listas';
+          b.classList.add('synced');
+        } else {
+          alert('Debes permitir las notificaciones en el sistema.');
+        }
+      } catch (e) {
+        console.error('Error push:', e);
+        alert('Error al activar alertas: ' + e.message);
+      }
+    }
+
+    async function checkPushStatus() {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const b = document.getElementById('bell-btn');
+        b.innerText = '✓ Alertas listas';
+        b.classList.add('synced');
+      }
+    }
+
+    supabaseClient.channel('live-touch-channel')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pings' }, (payload) => {
+        if (payload.new.sender !== currentOwner) {
+          const btn = document.getElementById('main-heart');
+          const status = document.getElementById('touch-status');
+          
+          status.innerText = `${payload.new.sender} se acordó de ti justo ahora.`;
+          btn.classList.add('received-pulse');
+
+          triggerHeavyVibration();
+          playHeartSound();
+
+          setTimeout(() => {
+            btn.classList.remove('received-pulse');
+            status.innerText = 'Toca para avisarle';
+          }, 4500);
+        }
+      })
+      .subscribe();
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => checkPushStatus());
+    }
+  </script>
+</body>
+</html>

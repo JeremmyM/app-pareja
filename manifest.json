@@ -1,0 +1,15 @@
+{
+  "name": "Nosotros",
+  "short_name": "Nosotros",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#f43f5e",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/833/833472.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
