@@ -42,30 +42,33 @@
       overflow-x: hidden;
     }
 
-    /* Cabecera de Pareja y Estados */
     .couple-header {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
+      gap: 14px;
       margin: 15px 0 20px;
     }
     .user-profile {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 12px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .avatar-wrapper {
-      width: 76px;
-      height: 76px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
       border: 2px solid var(--accent);
-      padding: 3px;
-      box-shadow: 0 0 20px var(--accent-glow);
-      background: var(--card-bg);
-      position: relative;
+      padding: 2px;
+      background: #090d16;
+      overflow: hidden;
     }
     .avatar-img {
       width: 100%;
@@ -73,28 +76,28 @@
       border-radius: 50%;
       object-fit: cover;
     }
-    .mood-bubble {
-      position: absolute;
-      bottom: -4px;
-      right: -4px;
-      background: #1e293b;
-      border: 1.5px solid var(--accent);
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    }
     .user-name {
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 700;
       color: #e2e8f0;
     }
+    .mood-pill-status {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      padding: 4px 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .mood-emoji-big { font-size: 1.2rem; }
+    .mood-text-status {
+      font-size: 0.72rem;
+      color: #fda4af;
+      font-weight: 600;
+    }
 
-    /* Banner Aniversario */
     .anniversary-banner {
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.18), rgba(99, 102, 241, 0.18));
       border: 1px solid rgba(244, 63, 94, 0.35);
@@ -126,7 +129,6 @@
       margin-top: 2px;
     }
 
-    /* Grilla de Métricas */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -158,7 +160,6 @@
       color: var(--text);
     }
 
-    /* Selector de Ánimo */
     .mood-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -195,7 +196,6 @@
       box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    /* Barra Inferior Fija */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -229,28 +229,32 @@
 </head>
 <body>
 
-  <!-- Cabecera de Pareja con Burbujas de Ánimo en Vivo -->
   <div class="couple-header">
     <div class="user-profile">
       <div class="avatar-wrapper">
         <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Jeremmy" class="avatar-img" alt="Jeremmy">
-        <div class="mood-bubble" id="mood-jeremmy">🥰</div>
       </div>
       <span class="user-name">Jeremmy</span>
+      <div class="mood-pill-status">
+        <span class="mood-emoji-big" id="mood-jeremmy">🥰</span>
+        <span class="mood-text-status" id="text-mood-jeremmy">Enamorado</span>
+      </div>
     </div>
 
-    <div style="font-size: 1.8rem; animation: float 2.5s infinite ease-in-out;">☁️❤️☁️</div>
+    <div style="font-size: 1.4rem;">☁️❤️☁️</div>
 
     <div class="user-profile">
       <div class="avatar-wrapper">
         <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Veronica" class="avatar-img" alt="Вероничка">
-        <div class="mood-bubble" id="mood-veronica">🥰</div>
       </div>
       <span class="user-name">Вероничка</span>
+      <div class="mood-pill-status">
+        <span class="mood-emoji-big" id="mood-veronica">🥰</span>
+        <span class="mood-text-status" id="text-mood-veronica">Enamorada</span>
+      </div>
     </div>
   </div>
 
-  <!-- Banner Aniversario -->
   <div class="anniversary-banner">
     <div>
       <span class="banner-title">Juntos desde el 25 de junio</span>
@@ -260,7 +264,6 @@
     <div style="font-size: 2.2rem;">💍</div>
   </div>
 
-  <!-- Grilla de Métricas Calculadas -->
   <div class="metrics-grid">
     <div class="metric-card">
       <span class="metric-icon">💞</span>
@@ -299,7 +302,6 @@
     </div>
   </div>
 
-  <!-- Selector de Estado de Ánimo -->
   <div class="mood-card">
     <span class="mood-label">Tu estado actual (se actualiza al instante en su pantalla):</span>
     <div class="mood-row">
@@ -311,7 +313,6 @@
     </div>
   </div>
 
-  <!-- Barra Inferior -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -334,7 +335,6 @@
 
     let currentOwner = localStorage.getItem('device_owner') || 'Jeremmy';
 
-    // 1. Contador de Aniversario (25 de junio de 2024)
     const startDate = new Date('2024-06-25T00:00:00');
 
     function calculateAnniversary() {
@@ -367,7 +367,6 @@
 
     calculateAnniversary();
 
-    // 2. Cálculo real de Racha e Intimidad basado en toques de los últimos 7 días
     async function loadDynamicMetrics() {
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -387,12 +386,10 @@
       }
 
       if (recentPings && recentPings.length > 0) {
-        // Días distintos con actividad en los últimos 7 días
         const activeDays = new Set(recentPings.map(p => p.created_at.split('T')[0]));
         const streak = activeDays.size;
         document.getElementById('streak-stat').innerText = `${streak}d`;
 
-        // Intimidad calculada: interacción cruzada (ambos envían toques)
         const jeremmyTouches = recentPings.filter(p => p.sender === 'Jeremmy').length;
         const veronicaTouches = recentPings.filter(p => p.sender !== 'Jeremmy').length;
         
@@ -412,17 +409,30 @@
 
     loadDynamicMetrics();
 
-    // 3. Sincronización en Vivo del Estado de Ánimo
+    const moodDescriptions = {
+      '🥰': 'Enamorado/a',
+      '🥺': 'Extrañándote',
+      '😴': 'Con sueñito',
+      '✨': 'Feliz y motivado',
+      '🫂': 'Necesita abrazo'
+    };
+
+    function renderMood(user, emoji) {
+      const isJeremmy = user.toLowerCase().includes('jeremmy');
+      const targetEmojiElem = document.getElementById(isJeremmy ? 'mood-jeremmy' : 'mood-veronica');
+      const targetTextElem = document.getElementById(isJeremmy ? 'text-mood-jeremmy' : 'text-mood-veronica');
+
+      if (targetEmojiElem) targetEmojiElem.innerText = emoji || '🥰';
+      if (targetTextElem) targetTextElem.innerText = moodDescriptions[emoji] || 'Normal';
+    }
+
     async function fetchMoods() {
       const { data } = await supabaseClient.from('couple_status').select('*');
       if (data) {
         data.forEach(item => {
-          if (item.user_name.toLowerCase().includes('jeremmy')) {
-            document.getElementById('mood-jeremmy').innerText = item.mood;
-            if (currentOwner === 'Jeremmy') highlightButton(item.mood);
-          } else {
-            document.getElementById('mood-veronica').innerText = item.mood;
-            if (currentOwner === 'Verónica') highlightButton(item.mood);
+          renderMood(item.user_name, item.mood);
+          if (item.user_name.toLowerCase() === currentOwner.toLowerCase()) {
+            highlightButton(item.mood);
           }
         });
       }
@@ -439,7 +449,9 @@
       document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const targetUser = currentOwner === 'Jeremmy' ? 'Jeremmy' : 'Verónica';
+      renderMood(currentOwner, emoji);
+
+      const targetUser = currentOwner.toLowerCase().includes('jeremmy') ? 'Jeremmy' : 'Verónica';
 
       await supabaseClient.from('couple_status').upsert({
         user_name: targetUser,
@@ -450,14 +462,10 @@
 
     fetchMoods();
 
-    // Suscripción WebSocket a cambios de ánimo en tiempo real
     supabaseClient.channel('mood-live-channel')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'couple_status' }, (payload) => {
-        const item = payload.new;
-        if (item.user_name.toLowerCase().includes('jeremmy')) {
-          document.getElementById('mood-jeremmy').innerText = item.mood;
-        } else {
-          document.getElementById('mood-veronica').innerText = item.mood;
+        if (payload.new) {
+          renderMood(payload.new.user_name, payload.new.mood);
         }
       })
       .subscribe();
