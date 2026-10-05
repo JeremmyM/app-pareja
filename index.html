@@ -249,26 +249,32 @@
     }
 
     async function sendTouch() {
-      const btn = document.getElementById('main-heart');
-      const label = document.getElementById('touch-status');
-      
-      btn.style.transform = 'scale(0.85)';
-      setTimeout(() => btn.style.transform = 'scale(1)', 140);
-      
-      if ('vibrate' in navigator) navigator.vibrate(80);
+  const btn = document.getElementById('main-heart');
+  const label = document.getElementById('touch-status');
+  
+  btn.style.transform = 'scale(0.85)';
+  setTimeout(() => btn.style.transform = 'scale(1)', 140);
+  
+  if ('vibrate' in navigator) navigator.vibrate(80);
 
-      label.innerText = 'Listo, ya le sonó.';
-      
-      await supabaseClient.from('pings').insert([{ sender: currentOwner }]);
+  label.innerText = 'Listo, ya le sonó.';
+  
+  // 1. Guardar en pings para tiempo real
+  await supabaseClient.from('pings').insert([{ sender: currentOwner }]);
 
-      supabaseClient.functions.invoke('send-push', {
-        body: { record: { sender: currentOwner } }
-      }).catch(err => console.error("Error Edge Push:", err));
+  // 2. Disparar Edge Function
+  console.log(`Disparando push desde ${currentOwner}...`);
+  supabaseClient.functions.invoke('send-push', {
+    body: { record: { sender: currentOwner } }
+  }).then(({ data, error }) => {
+    if (error) console.error("Error respuesta Edge Push:", error);
+    else console.log("Respuesta Edge Push:", data);
+  });
 
-      setTimeout(() => {
-        label.innerText = 'Toca para avisarle';
-      }, 2500);
-    }
+  setTimeout(() => {
+    label.innerText = 'Toca para avisarle';
+  }, 2500);
+}
 
     function urlBase64ToUint8Array(base64String) {
       const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -278,33 +284,59 @@
     }
 
     async function subscribePush() {
-      if (!('serviceWorker' in navigator)) return;
-      try {
-        const reg = await navigator.serviceWorker.ready;
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-          const sub = await reg.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-          });
+  const b = document.getElementById('bell-btn');
+  b.innerText = 'Activando...';
 
-          await supabaseClient.from('push_subscriptions').upsert({
-            user_name: currentOwner,
-            subscription: sub.toJSON(),
-            updated_at: new Date().toISOString()
-          }, { onConflict: 'user_name' });
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    alert('Tu navegador no admite notificaciones push.');
+    b.innerText = '🔔 Alertas';
+    return;
+  }
 
-          const b = document.getElementById('bell-btn');
-          b.innerText = '✓ Alertas listas';
-          b.classList.add('synced');
-        } else {
-          alert('Debes permitir las notificaciones en el sistema.');
-        }
-      } catch (e) {
-        console.error('Error push:', e);
-        alert('Error al activar alertas: ' + e.message);
-      }
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const permission = await Notification.requestPermission();
+
+    if (permission !== 'granted') {
+      alert('Debes permitir las notificaciones en el sistema.');
+      b.innerText = '🔔 Alertas';
+      return;
     }
+
+    // Cancelar cualquier suscripción vieja rota
+    const existingSub = await reg.pushManager.getSubscription();
+    if (existingSub) {
+      await existingSub.unsubscribe();
+    }
+
+    // Crear suscripción fresca
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+    });
+
+    // Guardar directamente en Supabase
+    const { error } = await supabaseClient.from('push_subscriptions').upsert({
+      user_name: currentOwner,
+      subscription: sub.toJSON(),
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_name' });
+
+    if (error) {
+      console.error('Error al guardar en Supabase:', error);
+      alert('Error en base de datos: ' + error.message);
+      b.innerText = '🔔 Reintentar';
+    } else {
+      b.innerText = '✓ Alertas listas';
+      b.classList.add('synced');
+      alert(`¡Alertas configuradas con éxito para ${currentOwner}!`);
+    }
+  } catch (err) {
+    console.error('Error push:', err);
+    alert('Error activando avisos: ' + err.message);
+    b.innerText = '🔔 Error';
+  }
+}
 
     async function checkPushStatus() {
       if ('Notification' in window && Notification.permission === 'granted') {
