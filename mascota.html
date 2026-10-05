@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Mascota - Nosotros</title>
+  <title>Mascota Mishi - Nosotros</title>
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -36,45 +36,75 @@
       color: var(--text);
     }
     
-    /* Layout rígido en Grid: nada puede desbordar ni taparse */
+    /* Layout a pantalla completa limpia */
     .app-layout {
       width: 100%;
       height: 100%;
-      display: grid;
-      grid-template-rows: auto auto 1fr auto auto;
-      padding: env(safe-area-inset-top, 38px) 14px 0 14px;
-      gap: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 38px) 16px calc(env(safe-area-inset-bottom, 16px) + 12px) 16px;
     }
 
-    /* 1. Cabecera */
-    .top-header {
+    /* Barra Superior con Navegación de Retorno Rápido */
+    .top-nav-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 32px;
+      height: 38px;
+      flex-shrink: 0;
+      z-index: 50;
     }
-    .pet-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .back-btn {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
       color: #fda4af;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      text-decoration: none;
     }
+    .back-btn:active { transform: scale(0.94); }
 
-    /* 2. Medidores de Vida */
+    .quick-nav {
+      display: flex;
+      gap: 6px;
+    }
+    .quick-link {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+    .quick-link:active { transform: scale(0.92); border-color: var(--accent); }
+
+    /* Medidores */
     .vital-bars-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 8px 12px;
+      border-radius: 16px;
+      padding: 10px 14px;
+      backdrop-filter: blur(12px);
+      flex-shrink: 0;
+      margin-top: 6px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
     .vital-item {
       display: flex;
@@ -84,7 +114,7 @@
     .vital-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 600;
       color: var(--text-muted);
     }
@@ -105,23 +135,25 @@
     .fill-affection { background: linear-gradient(90deg, #ec4899, #f43f5e); }
     .fill-fun { background: linear-gradient(90deg, #eab308, #10b981); }
 
-    /* 3. Habitación / Escenario (se estira dinámicamente) */
+    /* Habitación Amplia del Gato */
     .room-viewport {
+      flex: 1;
+      width: 100%;
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 12px;
-      background: radial-gradient(circle at 50% 65%, rgba(244, 63, 94, 0.08) 0%, transparent 70%);
-      min-height: 0;
+      padding-bottom: 25px;
+      background: radial-gradient(circle at 50% 60%, rgba(244, 63, 94, 0.09) 0%, transparent 70%);
+      min-height: 220px;
     }
 
     .carpet {
       position: absolute;
-      bottom: 8px;
-      width: 200px;
-      height: 55px;
+      bottom: 14px;
+      width: 240px;
+      height: 70px;
       background: radial-gradient(ellipse at center, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.3) 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 50%;
@@ -130,123 +162,123 @@
 
     .food-bowl {
       position: absolute;
-      bottom: 16px;
-      left: 20px;
-      width: 38px;
-      height: 20px;
+      bottom: 24px;
+      left: 28px;
+      width: 44px;
+      height: 22px;
       background: #334155;
       border: 2px solid #64748b;
-      border-radius: 0 0 18px 18px;
+      border-radius: 0 0 20px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       z-index: 2;
     }
     .food-content {
       position: relative;
-      top: -6px;
+      top: -8px;
     }
 
     .cat-bed {
       position: absolute;
-      bottom: 14px;
-      right: 20px;
-      width: 48px;
-      height: 26px;
+      bottom: 22px;
+      right: 28px;
+      width: 56px;
+      height: 28px;
       background: rgba(244, 63, 94, 0.18);
       border: 2px dashed rgba(244, 63, 94, 0.4);
-      border-radius: 16px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       z-index: 2;
     }
 
     /* Gato */
     .cat-actor {
       position: relative;
-      width: 95px;
-      height: 85px;
+      width: 110px;
+      height: 100px;
       z-index: 5;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .cat-actor:active { transform: scale(0.92); }
 
     .cat-body-shape {
-      width: 72px;
-      height: 64px;
+      width: 82px;
+      height: 72px;
       background: #fdfdfd;
       border-radius: 50% 50% 45% 45%;
       position: relative;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
     }
     .ear {
       position: absolute;
-      top: -10px;
+      top: -12px;
       width: 0;
       height: 0;
-      border-left: 9px solid transparent;
-      border-right: 9px solid transparent;
-      border-bottom: 16px solid #fdfdfd;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 18px solid #fdfdfd;
     }
-    .ear.left { left: 6px; transform: rotate(-16deg); }
-    .ear.right { right: 6px; transform: rotate(16deg); }
+    .ear.left { left: 8px; transform: rotate(-16deg); }
+    .ear.right { right: 8px; transform: rotate(16deg); }
     .ear-pink {
       position: absolute;
-      top: 4px;
+      top: 5px;
       left: -5px;
       width: 0;
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 10px solid #fda4af;
+      border-bottom: 11px solid #fda4af;
     }
     .eye {
       position: absolute;
-      top: 24px;
-      width: 7px;
-      height: 9px;
+      top: 28px;
+      width: 8px;
+      height: 10px;
       background: #1e293b;
       border-radius: 50%;
       animation: catBlink 3.8s infinite;
     }
-    .eye.left { left: 16px; }
-    .eye.right { right: 16px; }
+    .eye.left { left: 20px; }
+    .eye.right { right: 20px; }
     @keyframes catBlink {
       0%, 95%, 100% { transform: scaleY(1); }
       97% { transform: scaleY(0.1); }
     }
     .nose {
       position: absolute;
-      top: 32px;
+      top: 38px;
       left: 50%;
       transform: translateX(-50%);
-      width: 5px;
-      height: 3px;
+      width: 6px;
+      height: 4px;
       background: #f43f5e;
       border-radius: 40%;
     }
     .whiskers {
       position: absolute;
-      top: 34px;
-      width: 10px;
+      top: 40px;
+      width: 12px;
       height: 1px;
       background: #cbd5e1;
     }
-    .whiskers.left { left: 3px; transform: rotate(8deg); }
-    .whiskers.right { right: 3px; transform: rotate(-8deg); }
+    .whiskers.left { left: 4px; transform: rotate(8deg); }
+    .whiskers.right { right: 4px; transform: rotate(-8deg); }
     .tail {
       position: absolute;
-      bottom: 4px;
-      right: -8px;
-      width: 16px;
-      height: 6px;
+      bottom: 6px;
+      right: -10px;
+      width: 18px;
+      height: 7px;
       background: #fdfdfd;
       border-radius: 10px;
       transform-origin: left center;
@@ -258,107 +290,93 @@
     }
 
     .cat-actor.sleeping {
-      transform: translate(50px, 4px) scale(0.85);
+      transform: translate(65px, 6px) scale(0.85);
     }
     .cat-actor.sleeping .eye {
-      height: 2px !important;
-      border-radius: 0 0 8px 8px;
+      height: 3px !important;
+      border-radius: 0 0 10px 10px;
       transform: scaleY(1) !important;
       animation: none !important;
     }
     .cat-actor.sleeping .tail { animation: none; }
 
     .cat-actor.eating {
-      transform: translate(-48px, 4px) scale(0.9);
+      transform: translate(-60px, 6px) scale(0.9);
     }
 
     .chat-bubble {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 5px 12px;
-      font-size: 0.72rem;
+      border-radius: 14px;
+      padding: 6px 14px;
+      font-size: 0.75rem;
       font-weight: 500;
       color: #e2e8f0;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       max-width: 90%;
       text-align: center;
       z-index: 6;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* 4. Bandeja de Acciones: En el flujo normal, NUNCA tapada */
+    /* Bandeja Inferior Cómoda y Espaciosa */
     .action-deck {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       width: 100%;
-      margin-bottom: 4px;
+      flex-shrink: 0;
     }
     .care-btn {
       flex: 1;
-      height: 58px;
+      height: 64px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 4px;
+      border-radius: 16px;
+      padding: 6px;
       color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2px;
-      font-size: 0.68rem;
+      gap: 3px;
+      font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      transition: all 0.15s ease;
     }
     .care-btn:active {
       transform: scale(0.92);
       border-color: var(--accent);
       background: var(--accent-soft);
     }
-    .care-btn span.ico { font-size: 1.25rem; }
-
-    /* 5. Barra Inferior en flujo estricto */
-    .bottom-nav {
-      height: calc(56px + env(safe-area-inset-bottom, 0px));
-      background: rgba(15, 23, 42, 0.98);
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      margin: 0 -14px; /* Extender borde a borde */
-    }
-    .nav-item {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      font-size: 0.65rem;
-      text-decoration: none;
-      width: 25%;
-    }
-    .nav-item.active { color: var(--accent); }
-    .nav-item span.icon { font-size: 1.15rem; }
+    .care-btn span.ico { font-size: 1.4rem; }
   </style>
 </head>
 <body>
 
   <div class="app-layout">
     
-    <!-- 1. Cabecera -->
-    <div class="top-header">
-      <div class="pet-chip">
-        <span>🐾</span>
-        <span id="pet-title">Mishi • Nv. 1</span>
+    <!-- Barra Superior con Botón Volver y Accesos -->
+    <div class="top-nav-bar">
+      <a href="perfil.html" class="back-btn">
+        <span>←</span>
+        <span>Salir</span>
+      </a>
+
+      <div style="font-size: 0.78rem; font-weight: 700; color: #fda4af;" id="pet-title">
+        Mishi • Nv. 1
       </div>
-      <span style="font-size: 0.68rem; color: #94a3b8;" id="caretaker-text">Cargando...</span>
+
+      <div class="quick-nav">
+        <a href="index.html" class="quick-link" title="Ir a Toque">❤️</a>
+        <a href="pizarra.html" class="quick-link" title="Ir a Pizarra">🎨</a>
+        <a href="perfil.html" class="quick-link" title="Ir a Perfil">👤</a>
+      </div>
     </div>
 
-    <!-- 2. Medidores -->
+    <!-- Medidores -->
     <div class="vital-bars-grid">
       <div class="vital-item">
         <div class="vital-header">
@@ -401,7 +419,7 @@
       </div>
     </div>
 
-    <!-- 3. Habitación -->
+    <!-- Habitación Amplia -->
     <div class="room-viewport">
       <div class="chat-bubble" id="pet-dialogue">¡Miau! Tócame para hacerme mimos.</div>
 
@@ -426,7 +444,7 @@
       <div class="carpet"></div>
     </div>
 
-    <!-- 4. Botones de Cuidado (Siempre 100% a la vista) -->
+    <!-- Bandeja de Acciones (Completamente Despejada) -->
     <div class="action-deck">
       <button class="care-btn" onclick="feedAction('🐟', 20)">
         <span class="ico">🐟</span>
@@ -445,26 +463,6 @@
         <span id="sleep-btn-label">Dormir</span>
       </button>
     </div>
-
-    <!-- 5. Barra Inferior Fija dentro del Grid -->
-    <nav class="bottom-nav">
-      <a href="index.html" class="nav-item">
-        <span class="icon">❤️</span>
-        <span>Toque</span>
-      </a>
-      <a href="pizarra.html" class="nav-item">
-        <span class="icon">🎨</span>
-        <span>Pizarra</span>
-      </a>
-      <a href="mascota.html" class="nav-item active">
-        <span class="icon">🐾</span>
-        <span>Mascota</span>
-      </a>
-      <a href="perfil.html" class="nav-item">
-        <span class="icon">👤</span>
-        <span>Perfil</span>
-      </a>
-    </nav>
 
   </div>
 
@@ -510,10 +508,6 @@
 
       document.getElementById('bar-fun').style.width = `${pet.fun}%`;
       document.getElementById('txt-fun').innerText = `${pet.fun}%`;
-
-      if (pet.last_action_by) {
-        document.getElementById('caretaker-text').innerText = `Atendido por: ${pet.last_action_by}`;
-      }
 
       if (pet.is_sleeping) {
         catElem.className = 'cat-actor sleeping';

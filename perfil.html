@@ -129,10 +129,11 @@
       margin-top: 2px;
     }
 
+    /* Grilla simétrica de 4 tarjetas */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
       width: 100%;
       margin-bottom: 20px;
     }
@@ -140,24 +141,39 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 14px 6px;
+      padding: 16px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       backdrop-filter: blur(10px);
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-    .metric-icon { font-size: 1.5rem; }
+    .metric-card.interactive {
+      cursor: pointer;
+      border-color: rgba(244, 63, 94, 0.3);
+      background: linear-gradient(145deg, rgba(19, 27, 46, 0.9), rgba(244, 63, 94, 0.08));
+    }
+    .metric-card.interactive:active {
+      transform: scale(0.96);
+      border-color: var(--accent);
+    }
+    .metric-icon { font-size: 1.6rem; }
     .metric-title {
-      font-size: 0.68rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 500;
       line-height: 1.1;
     }
     .metric-value {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--text);
+    }
+    .metric-badge-sub {
+      font-size: 0.65rem;
+      color: #fda4af;
+      font-weight: 600;
     }
 
     .mood-card {
@@ -264,41 +280,35 @@
     <div style="font-size: 2.2rem;">💍</div>
   </div>
 
+  <!-- 4 Métricas Reales Claras -->
   <div class="metrics-grid">
     <div class="metric-card">
       <span class="metric-icon">💞</span>
       <span class="metric-title">Juntos Desde</span>
       <span class="metric-value" id="days-together-stat">0</span>
+      <span class="metric-badge-sub" id="next-aniv-days">-- días al aniv.</span>
     </div>
 
     <div class="metric-card">
       <span class="metric-icon">💋</span>
       <span class="metric-title">Toques Totales</span>
       <span class="metric-value" id="total-touches-stat">0</span>
+      <span class="metric-badge-sub">enviados</span>
     </div>
 
     <div class="metric-card">
       <span class="metric-icon">🔥</span>
       <span class="metric-title">Racha Amor</span>
-      <span class="metric-value" id="streak-stat">0</span>
+      <span class="metric-value" id="streak-stat">0d</span>
+      <span class="metric-badge-sub">días seguidos</span>
     </div>
 
-    <div class="metric-card">
-      <span class="metric-icon">⏳</span>
-      <span class="metric-title">Próx. Aniv.</span>
-      <span class="metric-value" id="next-aniv-days">0d</span>
-    </div>
-
-    <div class="metric-card">
-      <span class="metric-icon">💖</span>
-      <span class="metric-title">Intimidad</span>
-      <span class="metric-value" id="intimacy-stat">0%</span>
-    </div>
-
-    <div class="metric-card">
+    <!-- Tarjeta de Mascota: Lleva directo a la habitación del gato -->
+    <div class="metric-card interactive" onclick="window.location.href='mascota.html'">
       <span class="metric-icon">🐾</span>
-      <span class="metric-title">Sintonía</span>
-      <span class="metric-value" id="sync-level">Nv. 1</span>
+      <span class="metric-title">Mascota Mishi</span>
+      <span class="metric-value" id="pet-summary-level">Nv. 1</span>
+      <span class="metric-badge-sub">Toca para cuidar →</span>
     </div>
   </div>
 
@@ -313,24 +323,21 @@
     </div>
   </div>
 
-<nav class="bottom-nav">
-  <a href="index.html" class="nav-item">
-    <span class="icon">❤️</span>
-    <span>Toque</span>
-  </a>
-  <a href="pizarra.html" class="nav-item">
-    <span class="icon">🎨</span>
-    <span>Pizarra</span>
-  </a>
-  <a href="mascota.html" class="nav-item">
-    <span class="icon">🐾</span>
-    <span>Mascota</span>
-  </a>
-  <a href="perfil.html" class="nav-item active">
-    <span class="icon">👤</span>
-    <span>Perfil</span>
-  </a>
-</nav>
+  <!-- Barra de navegación con 3 secciones principales -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="icon">❤️</span>
+      <span>Toque</span>
+    </a>
+    <a href="pizarra.html" class="nav-item">
+      <span class="icon">🎨</span>
+      <span>Pizarra</span>
+    </a>
+    <a href="perfil.html" class="nav-item active">
+      <span class="icon">👤</span>
+      <span>Perfil</span>
+    </a>
+  </nav>
 
   <script>
     const SUPABASE_URL = 'https://qxoaavedwbomrhszvgtx.supabase.co';
@@ -366,12 +373,13 @@
       let nextAnniv = new Date(now.getFullYear(), 5, 25);
       if (now > nextAnniv) nextAnniv = new Date(now.getFullYear() + 1, 5, 25);
       const daysToNext = Math.ceil((nextAnniv - now) / (1000 * 60 * 60 * 24));
-      document.getElementById('next-aniv-days').innerText = `${daysToNext}d`;
+      document.getElementById('next-aniv-days').innerText = `${daysToNext}d al aniversario`;
     }
 
     calculateAnniversary();
 
-    async function loadDynamicMetrics() {
+    async function loadStats() {
+      // 1. Toques y Racha
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -391,27 +399,19 @@
 
       if (recentPings && recentPings.length > 0) {
         const activeDays = new Set(recentPings.map(p => p.created_at.split('T')[0]));
-        const streak = activeDays.size;
-        document.getElementById('streak-stat').innerText = `${streak}d`;
-
-        const jeremmyTouches = recentPings.filter(p => p.sender === 'Jeremmy').length;
-        const veronicaTouches = recentPings.filter(p => p.sender !== 'Jeremmy').length;
-        
-        let intimacy = 50;
-        if (jeremmyTouches > 0 && veronicaTouches > 0) {
-          intimacy = Math.min(100, 70 + (streak * 4));
-        } else if (jeremmyTouches > 0 || veronicaTouches > 0) {
-          intimacy = Math.min(80, 50 + (streak * 3));
-        }
-        document.getElementById('intimacy-stat').innerText = `${intimacy}%`;
-        document.getElementById('sync-level').innerText = intimacy > 85 ? 'Nv. Máx' : 'Nv. ' + Math.ceil(intimacy / 25);
+        document.getElementById('streak-stat').innerText = `${activeDays.size}d`;
       } else {
         document.getElementById('streak-stat').innerText = '0d';
-        document.getElementById('intimacy-stat').innerText = '40%';
+      }
+
+      // 2. Info de la Mascota
+      const { data: pet } = await supabaseClient.from('pet_state').select('level, name').eq('id', 1).single();
+      if (pet) {
+        document.getElementById('pet-summary-level').innerText = `Nv. ${pet.level}`;
       }
     }
 
-    loadDynamicMetrics();
+    loadStats();
 
     const moodDescriptions = {
       '🥰': 'Enamorado/a',
