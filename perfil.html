@@ -17,6 +17,8 @@
       --accent: #f43f5e;
       --accent-soft: rgba(244, 63, 94, 0.2);
       --accent-glow: rgba(244, 63, 94, 0.45);
+      --purple-btn: #8b5cf6;
+      --purple-btn-active: #7c3aed;
       --text: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -44,7 +46,7 @@
       overflow-y: auto;
     }
 
-    /* Cabecera Principal de Pareja */
+    /* Cabecera Principal */
     .couple-header {
       display: flex;
       align-items: center;
@@ -133,7 +135,7 @@
       margin-top: 2px;
     }
 
-    /* 3 Métricas Interactivas */
+    /* Métricas */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -208,7 +210,7 @@
       box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    /* MODALES A PANTALLA COMPLETA */
+    /* Modales Pantalla Completa */
     .full-modal {
       position: fixed;
       inset: 0;
@@ -240,10 +242,10 @@
       cursor: pointer;
     }
 
-    /* VISTA 1: JUNTOS DESDE */
+    /* Vista Juntos Desde */
     .hero-photo-card {
       width: 100%;
-      height: 250px;
+      height: 240px;
       border-radius: 22px;
       background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(7, 10, 19, 0.95)),
                   url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=700&q=80') center/cover;
@@ -251,7 +253,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       border: 1px solid var(--card-border);
       margin-bottom: 20px;
@@ -286,25 +287,133 @@
       text-align: left;
     }
     .date-card-item {
-      background: var(--card-bg);
+      background: rgba(255, 245, 245, 0.08);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 14px 16px;
+      border-radius: 18px;
+      padding: 14px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
+      backdrop-filter: blur(8px);
     }
     .date-item-info {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2px;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
     }
-    .date-item-title { font-weight: 600; font-size: 0.9rem; color: #f1f5f9; }
+    .date-indicator-bar {
+      width: 3px;
+      height: 20px;
+      background: #f472b6;
+      border-radius: 4px;
+    }
+    .date-item-title { font-weight: 600; font-size: 0.92rem; color: #f1f5f9; }
     .date-item-val { font-size: 0.75rem; color: var(--text-muted); }
 
-    /* VISTA 2: RACHA DE AMOR & CALENDARIO */
+    .edit-pill-btn {
+      background: var(--purple-btn);
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .edit-pill-btn:active {
+      transform: scale(0.94);
+      background: var(--purple-btn-active);
+    }
+
+    /* Modal Formulario Estilizado: Editar Cumpleaños / Evento */
+    .edit-event-modal {
+      position: fixed;
+      inset: 0;
+      background: #0d121f;
+      z-index: 600;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 35px) 20px calc(env(safe-area-inset-bottom, 20px) + 20px) 20px;
+      overflow-y: auto;
+    }
+    .edit-event-modal.active { display: flex; }
+
+    .edit-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin: 10px 0 24px 0;
+      text-align: left;
+    }
+    .edit-header-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+    .edit-illustration {
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+
+    .form-group-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .form-input-clean {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 600;
+      outline: none;
+      width: 100%;
+    }
+    .form-input-clean::placeholder { color: #64748b; }
+
+    .btn-save-event {
+      background: var(--purple-btn);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 16px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.45);
+      margin-top: 20px;
+    }
+    .btn-save-event:active { transform: scale(0.97); background: var(--purple-btn-active); }
+
+    .btn-delete-event {
+      background: transparent;
+      border: none;
+      color: #fda4af;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 14px;
+      padding: 8px;
+    }
+
+    /* Modal Racha */
     .racha-level-card {
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(249, 115, 22, 0.2));
       border: 1px solid rgba(244, 63, 94, 0.35);
@@ -349,7 +458,7 @@
       color: white;
     }
 
-    /* Barra Inferior Fija */
+    /* Barra Inferior */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -396,7 +505,7 @@
       </div>
     </div>
 
-    <div style="font-size: 1.3rem;">☁️❤️️☁️</div>
+    <div style="font-size: 1.3rem;">☁️❤️☁️</div>
 
     <div class="user-profile">
       <div class="avatar-wrapper">
@@ -410,7 +519,7 @@
     </div>
   </div>
 
-  <!-- Banner Aniversario: Toca para abrir vista detallada -->
+  <!-- Banner Aniversario -->
   <div class="anniversary-banner" onclick="openModal('modal-juntos')">
     <div>
       <span class="banner-title">Juntos desde el 25 de junio</span>
@@ -475,11 +584,62 @@
 
     <div class="special-section-header">
       <span style="font-size: 0.95rem; font-weight: 700;">Nuestros días especiales</span>
-      <button onclick="addSpecialDate()" style="background: var(--accent); color: white; border: none; border-radius: 8px; width: 30px; height: 30px; font-size: 1.1rem; cursor: pointer;">+</button>
+      <button onclick="openEditEventModal(null)" style="background: var(--accent); color: white; border: none; border-radius: 8px; width: 30px; height: 30px; font-size: 1.1rem; cursor: pointer;">+</button>
     </div>
 
     <div id="dates-container">
-      <!-- Fechas especiales renderizadas desde Supabase -->
+      <!-- Se llena dinámicamente con las tarjetas y botón Editar -->
+    </div>
+  </div>
+
+  <!-- MODAL DE FORMULARIO ESTILIZADO (Estilo captura nativa) -->
+  <div class="edit-event-modal" id="modal-edit-event">
+    <div>
+      <div class="modal-top-bar">
+        <button class="modal-back-btn" onclick="closeModal('modal-edit-event')">← Cancelar</button>
+        <span style="font-size: 0.85rem; font-weight: 700;">Detalles</span>
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div class="edit-header-row">
+        <div>
+          <h2 class="edit-header-title" id="edit-modal-title-display">Editar fecha</h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Un recuerdo especial juntos</span>
+        </div>
+        <div class="edit-illustration">🎂</div>
+      </div>
+
+      <input type="hidden" id="edit-event-id" value="">
+
+      <!-- Campo 1: Título -->
+      <div class="form-group-card">
+        <span class="form-label">¿De quién es el cumpleaños o evento?</span>
+        <input type="text" id="edit-event-title" class="form-input-clean" placeholder="Ej. Cumpleaños de Verónica">
+      </div>
+
+      <!-- Campo 2: Fecha -->
+      <div class="form-group-card">
+        <span class="form-label">¿Cuándo fue?</span>
+        <input type="date" id="edit-event-date" class="form-input-clean" style="color-scheme: dark;">
+      </div>
+
+      <!-- Campo 3: Recordatorio -->
+      <div class="form-group-card">
+        <span class="form-label">¿Quieres un recordatorio? 👑</span>
+        <select id="edit-event-reminder" class="form-input-clean" style="background: transparent; color: white;">
+          <option value="none" style="background: #1e293b;">Sin recordatorios</option>
+          <option value="day_before" style="background: #1e293b;">1 día antes</option>
+          <option value="same_day" style="background: #1e293b;">El mismo día</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div>
+      <button class="btn-save-event" onclick="saveEventFromModal()">Guardar</button>
+      <center>
+        <button class="btn-delete-event" id="btn-delete-event-ui" onclick="deleteCurrentEvent()">Eliminar</button>
+      </center>
     </div>
   </div>
 
@@ -507,12 +667,12 @@
         Mes en curso
       </div>
       <div class="cal-grid" id="cal-grid">
-        <!-- Calendario dinámico con llamas -->
+        <!-- Días con fuego -->
       </div>
     </div>
   </div>
 
-  <!-- Barra de Navegación Fija -->
+  <!-- Barra Inferior Fija -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -536,15 +696,10 @@
     let currentOwner = localStorage.getItem('device_owner') || 'Jeremmy';
     const startDate = new Date('2024-06-25T00:00:00');
 
-    // 1. Control de Modales
-    function openModal(id) {
-      document.getElementById(id).classList.add('active');
-    }
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
-    }
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    // 2. Aniversario y Contador
+    // 1. Contador de Aniversario
     function calculateAnniversary() {
       const now = new Date();
       const diffDays = Math.floor(Math.abs(now - startDate) / (1000 * 60 * 60 * 24));
@@ -568,51 +723,96 @@
       document.getElementById('anniversary-counter').innerText = `${diffDays} días juntos`;
       document.getElementById('anniversary-sub').innerText = `${years} años, ${months} meses y ${days} días`;
     }
-
     calculateAnniversary();
 
-    // 3. Cargar Fechas Especiales
+    // 2. Cargar Días Especiales
+    let allSpecialDates = [];
+
     async function loadSpecialDates() {
       const { data } = await supabaseClient.from('special_dates').select('*').order('event_date', { ascending: true });
       const container = document.getElementById('dates-container');
       container.innerHTML = '';
+      allSpecialDates = data || [];
 
-      if (data && data.length > 0) {
-        data.forEach(item => {
+      if (allSpecialDates.length > 0) {
+        allSpecialDates.forEach(item => {
           const card = document.createElement('div');
           card.className = 'date-card-item';
           card.innerHTML = `
             <div class="date-item-info">
-              <span class="date-item-title">${item.title}</span>
-              <span class="date-item-val">${item.event_date}</span>
+              <div class="date-indicator-bar"></div>
+              <div>
+                <div class="date-item-title">${item.title}</div>
+                <div class="date-item-val">${item.event_date}</div>
+              </div>
             </div>
-            <button onclick="deleteSpecialDate(${item.id})" style="background: rgba(244,63,94,0.15); border: 1px solid rgba(244,63,94,0.3); color: #fda4af; padding: 5px 12px; border-radius: 10px; font-size: 0.75rem; cursor: pointer;">Eliminar</button>
+            <button class="edit-pill-btn" onclick="openEditEventModal(${item.id})">Editar</button>
           `;
           container.appendChild(card);
         });
       }
     }
 
-    async function addSpecialDate() {
-      const title = prompt('Título del día especial: (Ej. Cumpleaños de Verónica)');
-      if (!title) return;
-      const date = prompt('Fecha (Formato AAAA-MM-DD):', '2024-06-25');
-      if (!date) return;
+    // Abrir Formulario Estilizado
+    function openEditEventModal(id) {
+      const idInput = document.getElementById('edit-event-id');
+      const titleInput = document.getElementById('edit-event-title');
+      const dateInput = document.getElementById('edit-event-date');
+      const deleteBtn = document.getElementById('btn-delete-event-ui');
+      const titleDisplay = document.getElementById('edit-modal-title-display');
 
-      await supabaseClient.from('special_dates').insert([{ title, event_date: date }]);
+      if (id) {
+        const item = allSpecialDates.find(d => d.id === id);
+        idInput.value = item.id;
+        titleInput.value = item.title;
+        dateInput.value = item.event_date;
+        titleDisplay.innerText = item.title.toLowerCase().includes('cumple') || item.title.toLowerCase().includes('birthday') ? 'Editar cumpleaños' : 'Editar fecha';
+        deleteBtn.style.display = 'block';
+      } else {
+        idInput.value = '';
+        titleInput.value = '';
+        dateInput.value = '2024-06-25';
+        titleDisplay.innerText = 'Nuevo día especial';
+        deleteBtn.style.display = 'none';
+      }
+
+      openModal('modal-edit-event');
+    }
+
+    // Guardar Fecha
+    async function saveEventFromModal() {
+      const id = document.getElementById('edit-event-id').value;
+      const title = document.getElementById('edit-event-title').value.trim();
+      const date = document.getElementById('edit-event-date').value;
+
+      if (!title || !date) {
+        alert('Por favor completa el título y la fecha.');
+        return;
+      }
+
+      if (id) {
+        await supabaseClient.from('special_dates').update({ title, event_date: date }).eq('id', id);
+      } else {
+        await supabaseClient.from('special_dates').insert([{ title, event_date: date }]);
+      }
+
+      closeModal('modal-edit-event');
       loadSpecialDates();
     }
 
-    async function deleteSpecialDate(id) {
-      if (confirm('¿Eliminar este día especial?')) {
-        await supabaseClient.from('special_dates').delete().eq('id', id);
-        loadSpecialDates();
-      }
+    // Eliminar Fecha
+    async function deleteCurrentEvent() {
+      const id = document.getElementById('edit-event-id').value;
+      if (!id) return;
+
+      await supabaseClient.from('special_dates').delete().eq('id', id);
+      closeModal('modal-edit-event');
+      loadSpecialDates();
     }
 
     loadSpecialDates();
 
-    // 4. Estadísticas, Racha y Calendario
+    // 3. Estadísticas, Racha y Calendario
     async function loadStats() {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -640,7 +840,6 @@
       document.getElementById('streak-stat').innerText = `${streak}d`;
       document.getElementById('racha-modal-days').innerText = streak;
 
-      // Nivel de Racha
       const lvl = Math.min(5, Math.max(1, Math.ceil(streak / 5)));
       const titles = ['Lv. 1 Flechazo', 'Lv. 2 Sintonía', 'Lv. 3 Complicidad', 'Lv. 4 Inseparables', 'Lv. 5 Amor Eterno'];
       document.getElementById('racha-level-title').innerText = titles[lvl - 1];
@@ -690,7 +889,7 @@
 
     loadStats();
 
-    // 5. Estados de Ánimo
+    // 4. Estados de Ánimo
     const moodDescriptions = {
       '🥰': 'Enamorado/a',
       '🥺': 'Extrañándote',
