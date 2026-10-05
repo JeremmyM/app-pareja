@@ -327,7 +327,7 @@
       alert('Error en base de datos: ' + error.message);
       b.innerText = '🔔 Reintentar';
     } else {
-      b.innerText = '✓ Alertas listass';
+      b.innerText = '✓ Alertas listas';
       b.classList.add('synced');
       alert(`¡Alertas configuradas con éxito para ${currentOwner}!`);
     }
@@ -341,7 +341,7 @@
     async function checkPushStatus() {
       if ('Notification' in window && Notification.permission === 'granted') {
         const b = document.getElementById('bell-btn');
-        b.innerText = '✓ Alertas listass';
+        b.innerText = '✓ Alertas listas';
         b.classList.add('synced');
       }
     }
