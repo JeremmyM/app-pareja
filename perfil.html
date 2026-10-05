@@ -44,6 +44,7 @@
       overflow-y: auto;
     }
 
+    /* Cabecera de Pareja y Estados en Vivo */
     .couple-header {
       display: flex;
       align-items: center;
@@ -99,12 +100,13 @@
       font-weight: 600;
     }
 
+    /* Banner Aniversario */
     .anniversary-banner {
       background: linear-gradient(135deg, rgba(244, 63, 94, 0.18), rgba(99, 102, 241, 0.18));
       border: 1px solid rgba(244, 63, 94, 0.35);
       border-radius: 18px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
       text-align: left;
       display: flex;
       align-items: center;
@@ -119,7 +121,7 @@
       letter-spacing: 0.5px;
     }
     .banner-text {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: white;
       margin-top: 2px;
@@ -130,70 +132,26 @@
       margin-top: 2px;
     }
 
-    /* BOTÓN BANNER DESTACADO PARA LA MASCOTA */
-    .pet-hero-card {
-      background: linear-gradient(135deg, rgba(244, 63, 94, 0.22), rgba(30, 41, 59, 0.85));
-      border: 1.5px solid rgba(244, 63, 94, 0.4);
-      border-radius: 18px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      margin-bottom: 12px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-      transition: transform 0.15s ease;
-    }
-    .pet-hero-card:active {
-      transform: scale(0.97);
-    }
-    .pet-hero-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-align: left;
-    }
-    .pet-hero-icon {
-      font-size: 2.2rem;
-    }
-    .pet-hero-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #f8fafc;
-    }
-    .pet-hero-sub {
-      font-size: 0.75rem;
-      color: #fda4af;
-    }
-    .pet-hero-btn {
-      background: var(--accent);
-      color: white;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 12px;
-    }
-
-    /* 3 Métricas en fila equilibrada */
+    /* 3 Métricas Claras */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 10px;
       width: 100%;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
     .metric-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 12px 6px;
+      padding: 14px 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       backdrop-filter: blur(10px);
     }
-    .metric-icon { font-size: 1.35rem; }
+    .metric-icon { font-size: 1.45rem; }
     .metric-title {
       font-size: 0.65rem;
       color: var(--text-muted);
@@ -201,23 +159,24 @@
       line-height: 1.1;
     }
     .metric-value {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text);
     }
 
+    /* Selector de Ánimo */
     .mood-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 12px;
-      margin-bottom: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
       text-align: left;
     }
     .mood-label {
       font-size: 0.75rem;
       color: var(--text-muted);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       display: block;
     }
     .mood-row {
@@ -230,7 +189,7 @@
       border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 8px 6px;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       cursor: pointer;
       flex: 1;
       transition: all 0.2s ease;
@@ -242,6 +201,7 @@
       box-shadow: 0 0 12px var(--accent-glow);
     }
 
+    /* Barra Inferior Fija de 3 Pestañas */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -267,7 +227,7 @@
       gap: 3px;
       font-size: 0.72rem;
       text-decoration: none;
-      width: 25%;
+      width: 33.3%;
     }
     .nav-item.active { color: var(--accent); }
     .nav-item span.icon { font-size: 1.3rem; }
@@ -287,7 +247,7 @@
       </div>
     </div>
 
-    <div style="font-size: 1.3rem;">☁️❤️☁️</div>
+    <div style="font-size: 1.3rem;">☁️️❤️☁️</div>
 
     <div class="user-profile">
       <div class="avatar-wrapper">
@@ -307,22 +267,9 @@
       <div class="banner-text" id="anniversary-counter">Cargando...</div>
       <div class="banner-sub" id="anniversary-sub">Iniciamos en 2024</div>
     </div>
-    <div style="font-size: 2rem;">💍</div>
+    <div style="font-size: 2.2rem;">💍</div>
   </div>
 
-  <!-- TARJETA DESTACADA PERMANENTE DE LA MASCOTA -->
-  <div class="pet-hero-card" onclick="window.location.href='mascota.html'">
-    <div class="pet-hero-left">
-      <div class="pet-hero-icon">🐱</div>
-      <div>
-        <div class="pet-hero-title" id="pet-summary-name">Mishi • Nv. 1</div>
-        <div class="pet-hero-sub">Toca para entrar a cuidar a la mascota</div>
-      </div>
-    </div>
-    <div class="pet-hero-btn">Cuidar →</div>
-  </div>
-
-  <!-- 3 Métricas -->
   <div class="metrics-grid">
     <div class="metric-card">
       <span class="metric-icon">💞</span>
@@ -354,7 +301,6 @@
     </div>
   </div>
 
-<!-- Barra Inferior con 4 Pestañas Claras -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -363,10 +309,6 @@
     <a href="pizarra.html" class="nav-item">
       <span class="icon">🎨</span>
       <span>Pizarra</span>
-    </a>
-    <a href="mascota.html" class="nav-item">
-      <span class="icon">🐾</span>
-      <span>Mascota</span>
     </a>
     <a href="perfil.html" class="nav-item active">
       <span class="icon">👤</span>
@@ -430,11 +372,6 @@
         document.getElementById('streak-stat').innerText = `${activeDays.size}d`;
       } else {
         document.getElementById('streak-stat').innerText = '0d';
-      }
-
-      const { data: pet } = await supabaseClient.from('pet_state').select('level, name').eq('id', 1).single();
-      if (pet) {
-        document.getElementById('pet-summary-name').innerText = `${pet.name} • Nv. ${pet.level}`;
       }
     }
 
