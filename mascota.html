@@ -12,12 +12,13 @@
   <style>
     :root {
       --bg: #070a13;
-      --card-bg: rgba(19, 27, 46, 0.88);
+      --card-bg: rgba(19, 27, 46, 0.9);
       --card-border: rgba(255, 255, 255, 0.12);
       --accent: #f43f5e;
       --accent-soft: rgba(244, 63, 94, 0.2);
       --text: #f8fafc;
       --text-muted: #94a3b8;
+      --nav-height: 65px;
     }
     * {
       box-sizing: border-box;
@@ -37,9 +38,19 @@
     body {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: env(safe-area-inset-top, 40px) 16px 0 16px;
       position: relative;
+    }
+
+    /* CONTENEDOR PRINCIPAL CON ESPACIO SEGURO Y SCROLL SI ES PANTALLA PEQUEÑA */
+    .app-scroller {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 35px) 16px 12px 16px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-height: 0;
     }
 
     /* Cabecera superior */
@@ -47,9 +58,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 38px;
+      height: 34px;
       flex-shrink: 0;
-      z-index: 10;
+      margin-bottom: 6px;
     }
     .pet-chip {
       display: inline-flex;
@@ -57,9 +68,9 @@
       gap: 7px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 5px 14px;
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: #fda4af;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -69,32 +80,30 @@
     .vital-bars-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 10px 14px;
+      border-radius: 16px;
+      padding: 8px 12px;
       backdrop-filter: blur(12px);
       flex-shrink: 0;
-      margin-top: 6px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      z-index: 10;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
     .vital-item {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
     .vital-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
       color: var(--text-muted);
     }
     .meter-track {
       width: 100%;
-      height: 7px;
+      height: 6px;
       background: rgba(255, 255, 255, 0.08);
       border-radius: 999px;
       overflow: hidden;
@@ -112,74 +121,71 @@
     /* Habitación / Escenario del Gato */
     .room-viewport {
       flex: 1;
+      min-height: 200px;
       width: 100%;
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 24px;
-      background: radial-gradient(circle at 50% 60%, rgba(244, 63, 94, 0.08) 0%, transparent 70%);
-      overflow: hidden;
+      padding-bottom: 20px;
+      background: radial-gradient(circle at 50% 65%, rgba(244, 63, 94, 0.08) 0%, transparent 70%);
+      margin: 4px 0;
     }
 
-    /* Alfombra / Suelo */
     .carpet {
       position: absolute;
-      bottom: 20px;
-      width: 250px;
-      height: 75px;
+      bottom: 12px;
+      width: 220px;
+      height: 65px;
       background: radial-gradient(ellipse at center, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.3) 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 50%;
       z-index: 1;
     }
 
-    /* Plato de Comida */
     .food-bowl {
       position: absolute;
-      bottom: 30px;
-      left: 35px;
-      width: 44px;
-      height: 24px;
+      bottom: 22px;
+      left: 28px;
+      width: 42px;
+      height: 22px;
       background: #334155;
       border: 2px solid #64748b;
       border-radius: 0 0 20px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       z-index: 2;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
     .food-content {
       position: relative;
       top: -8px;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
-    /* Cama del Gatito */
     .cat-bed {
       position: absolute;
-      bottom: 28px;
-      right: 30px;
-      width: 58px;
-      height: 30px;
+      bottom: 20px;
+      right: 25px;
+      width: 52px;
+      height: 28px;
       background: rgba(244, 63, 94, 0.18);
       border: 2px dashed rgba(244, 63, 94, 0.4);
-      border-radius: 20px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
       z-index: 2;
     }
 
-    /* GATITO INTERACTIVO (CSS Animado Proporcional) */
+    /* GATITO INTERACTIVO */
     .cat-actor {
       position: relative;
-      width: 120px;
-      height: 110px;
+      width: 110px;
+      height: 100px;
       z-index: 5;
       cursor: pointer;
       display: flex;
@@ -190,55 +196,52 @@
     .cat-actor:active { transform: scale(0.92); }
 
     .cat-body-shape {
-      width: 88px;
-      height: 78px;
+      width: 82px;
+      height: 72px;
       background: #fdfdfd;
       border-radius: 50% 50% 45% 45%;
       position: relative;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
     }
-    /* Orejitas móviles */
     .ear {
       position: absolute;
-      top: -14px;
+      top: -12px;
       width: 0;
       height: 0;
-      border-left: 11px solid transparent;
-      border-right: 11px solid transparent;
-      border-bottom: 20px solid #fdfdfd;
-      transition: transform 0.2s ease;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 18px solid #fdfdfd;
     }
     .ear.left { left: 8px; transform: rotate(-16deg); }
     .ear.right { right: 8px; transform: rotate(16deg); }
     .ear-pink {
       position: absolute;
       top: 5px;
-      left: -6px;
+      left: -5px;
       width: 0;
       height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 12px solid #fda4af;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 11px solid #fda4af;
     }
-    /* Cara y Expresiones */
     .eye {
       position: absolute;
-      top: 30px;
-      width: 9px;
-      height: 11px;
+      top: 28px;
+      width: 8px;
+      height: 10px;
       background: #1e293b;
       border-radius: 50%;
       animation: catBlink 3.8s infinite;
     }
-    .eye.left { left: 22px; }
-    .eye.right { right: 22px; }
+    .eye.left { left: 20px; }
+    .eye.right { right: 20px; }
     @keyframes catBlink {
       0%, 95%, 100% { transform: scaleY(1); }
       97% { transform: scaleY(0.1); }
     }
     .nose {
       position: absolute;
-      top: 40px;
+      top: 38px;
       left: 50%;
       transform: translateX(-50%);
       width: 6px;
@@ -248,8 +251,8 @@
     }
     .whiskers {
       position: absolute;
-      top: 42px;
-      width: 14px;
+      top: 40px;
+      width: 12px;
       height: 1px;
       background: #cbd5e1;
     }
@@ -257,10 +260,10 @@
     .whiskers.right { right: 4px; transform: rotate(-8deg); }
     .tail {
       position: absolute;
-      bottom: 8px;
-      right: -12px;
-      width: 20px;
-      height: 8px;
+      bottom: 6px;
+      right: -10px;
+      width: 18px;
+      height: 7px;
       background: #fdfdfd;
       border-radius: 10px;
       transform-origin: left center;
@@ -271,9 +274,8 @@
       50% { transform: rotate(24deg); }
     }
 
-    /* Modos de Estado: Durmiendo y Comiendo */
     .cat-actor.sleeping {
-      transform: translate(75px, 6px) scale(0.85);
+      transform: translate(65px, 4px) scale(0.85);
     }
     .cat-actor.sleeping .eye {
       height: 3px !important;
@@ -284,46 +286,44 @@
     .cat-actor.sleeping .tail { animation: none; }
 
     .cat-actor.eating {
-      transform: translate(-70px, 8px) scale(0.9);
+      transform: translate(-60px, 6px) scale(0.9);
     }
 
-    /* Globo de Diálogo Flotante */
     .chat-bubble {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 6px 14px;
-      font-size: 0.78rem;
+      border-radius: 14px;
+      padding: 5px 12px;
+      font-size: 0.75rem;
       font-weight: 500;
       color: #e2e8f0;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       max-width: 90%;
       text-align: center;
       z-index: 6;
-      transition: all 0.3s ease;
     }
 
-    /* Bandeja de Herramientas de Cuidado */
+    /* BOTONES DE CUIDADO: COMPLETAMENTE DENTRO DEL FLUJO Y CON ALTURA FIJA */
     .action-deck {
       display: flex;
       gap: 8px;
       width: 100%;
-      padding-bottom: calc(75px + env(safe-area-inset-bottom, 12px)); /* Margen estricto sobre el menú */
-      z-index: 20;
+      flex-shrink: 0;
+      margin-bottom: 6px;
     }
     .care-btn {
       flex: 1;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 10px 6px;
+      border-radius: 14px;
+      padding: 8px 4px;
       color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
-      font-size: 0.72rem;
+      gap: 2px;
+      font-size: 0.7rem;
       font-weight: 600;
       cursor: pointer;
       backdrop-filter: blur(10px);
@@ -335,23 +335,30 @@
       border-color: var(--accent);
       background: var(--accent-soft);
     }
-    .care-btn span.ico { font-size: 1.45rem; }
+    .care-btn span.ico { font-size: 1.35rem; }
 
-    /* Barra Inferior Fija (4 Pestañas) */
+    /* ESPACIADOR FÍSICO PARA LA BARRA INFERIOR */
+    .bottom-nav-spacer {
+      width: 100%;
+      height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+      flex-shrink: 0;
+    }
+
+    /* BARRA INFERIOR FIJA CON Z-INDEX Y ALTURA CLARA */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 65px;
+      height: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
       background: rgba(15, 23, 42, 0.96);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: space-around;
-      align-items: center;
-      padding-bottom: env(safe-area-inset-bottom, 5px);
-      z-index: 100;
+      align-items: flex-start;
+      padding-top: 8px;
+      z-index: 1000;
     }
     .nav-item {
       background: none;
@@ -371,108 +378,112 @@
 </head>
 <body>
 
-  <!-- Cabecera -->
-  <div class="top-header">
-    <div class="pet-chip">
-      <span>🐾</span>
-      <span id="pet-title">Mishi • Nv. 1</span>
+  <!-- Contenedor que ocupa la pantalla visible sobre la barra -->
+  <div class="app-scroller">
+    
+    <!-- Cabecera -->
+    <div class="top-header">
+      <div class="pet-chip">
+        <span>🐾</span>
+        <span id="pet-title">Mishi • Nv. 1</span>
+      </div>
+      <span style="font-size: 0.72rem; color: #94a3b8;" id="caretaker-text">Cargando...</span>
     </div>
-    <span style="font-size: 0.72rem; color: #94a3b8;" id="caretaker-text">Cargando...</span>
+
+    <!-- Medidores -->
+    <div class="vital-bars-grid">
+      <div class="vital-item">
+        <div class="vital-header">
+          <span>🍗 Hambre</span>
+          <span id="txt-hunger">85%</span>
+        </div>
+        <div class="meter-track">
+          <div class="meter-fill fill-hunger" id="bar-hunger" style="width: 85%;"></div>
+        </div>
+      </div>
+
+      <div class="vital-item">
+        <div class="vital-header">
+          <span>⚡ Energía</span>
+          <span id="txt-energy">90%</span>
+        </div>
+        <div class="meter-track">
+          <div class="meter-fill fill-energy" id="bar-energy" style="width: 90%;"></div>
+        </div>
+      </div>
+
+      <div class="vital-item">
+        <div class="vital-header">
+          <span>💖 Cariño</span>
+          <span id="txt-affection">95%</span>
+        </div>
+        <div class="meter-track">
+          <div class="meter-fill fill-affection" id="bar-affection" style="width: 95%;"></div>
+        </div>
+      </div>
+
+      <div class="vital-item">
+        <div class="vital-header">
+          <span>🎾 Diversión</span>
+          <span id="txt-fun">80%</span>
+        </div>
+        <div class="meter-track">
+          <div class="meter-fill fill-fun" id="bar-fun" style="width: 80%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Habitación del Gatito -->
+    <div class="room-viewport">
+      <div class="chat-bubble" id="pet-dialogue">¡Miau! Tócame para hacerme mimos.</div>
+
+      <div class="food-bowl">
+        <span class="food-content" id="bowl-food"></span>
+      </div>
+
+      <div class="cat-actor" id="cat-actor" onclick="strokeCat()">
+        <div class="cat-body-shape">
+          <div class="ear left"><div class="ear-pink"></div></div>
+          <div class="ear right"><div class="ear-pink"></div></div>
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="nose"></div>
+          <div class="whiskers left"></div>
+          <div class="whiskers right"></div>
+          <div class="tail"></div>
+        </div>
+      </div>
+
+      <div class="cat-bed">🛏️</div>
+      <div class="carpet"></div>
+    </div>
+
+    <!-- Bandeja de Acciones: Siempre visible por encima del menú -->
+    <div class="action-deck">
+      <button class="care-btn" onclick="feedAction('🐟', 20)">
+        <span class="ico">🐟</span>
+        <span>Pescado</span>
+      </button>
+      <button class="care-btn" onclick="feedAction('🥛', 12)">
+        <span class="ico">🥛</span>
+        <span>Leche</span>
+      </button>
+      <button class="care-btn" onclick="playLaserAction()">
+        <span class="ico">🎾</span>
+        <span>Jugar</span>
+      </button>
+      <button class="care-btn" onclick="toggleSleepAction()">
+        <span class="ico" id="sleep-btn-icon">🌙</span>
+        <span id="sleep-btn-label">Dormir</span>
+      </button>
+    </div>
+
   </div>
 
-  <!-- Medidores de Vida -->
-  <div class="vital-bars-grid">
-    <div class="vital-item">
-      <div class="vital-header">
-        <span>🍗 Hambre</span>
-        <span id="txt-hunger">85%</span>
-      </div>
-      <div class="meter-track">
-        <div class="meter-fill fill-hunger" id="bar-hunger" style="width: 85%;"></div>
-      </div>
-    </div>
+  <!-- Espacio físico reservado exactamente para el menú -->
+  <div class="bottom-nav-spacer"></div>
 
-    <div class="vital-item">
-      <div class="vital-header">
-        <span>⚡ Energía</span>
-        <span id="txt-energy">90%</span>
-      </div>
-      <div class="meter-track">
-        <div class="meter-fill fill-energy" id="bar-energy" style="width: 90%;"></div>
-      </div>
-    </div>
-
-    <div class="vital-item">
-      <div class="vital-header">
-        <span>💖 Cariño</span>
-        <span id="txt-affection">95%</span>
-      </div>
-      <div class="meter-track">
-        <div class="meter-fill fill-affection" id="bar-affection" style="width: 95%;"></div>
-      </div>
-    </div>
-
-    <div class="vital-item">
-      <div class="vital-header">
-        <span>🎾 Diversión</span>
-        <span id="txt-fun">80%</span>
-      </div>
-      <div class="meter-track">
-        <div class="meter-fill fill-fun" id="bar-fun" style="width: 80%;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Habitación Interactiva -->
-  <div class="room-viewport">
-    <div class="chat-bubble" id="pet-dialogue">¡Miau! Pasa tu dedo sobre mí para acariciarme.</div>
-
-    <!-- Plato de comida a la izquierda -->
-    <div class="food-bowl">
-      <span class="food-content" id="bowl-food"></span>
-    </div>
-
-    <!-- Gatito en el centro -->
-    <div class="cat-actor" id="cat-actor" onclick="strokeCat()">
-      <div class="cat-body-shape">
-        <div class="ear left"><div class="ear-pink"></div></div>
-        <div class="ear right"><div class="ear-pink"></div></div>
-        <div class="eye left"></div>
-        <div class="eye right"></div>
-        <div class="nose"></div>
-        <div class="whiskers left"></div>
-        <div class="whiskers right"></div>
-        <div class="tail"></div>
-      </div>
-    </div>
-
-    <!-- Cama a la derecha -->
-    <div class="cat-bed">🛏️</div>
-
-    <div class="carpet"></div>
-  </div>
-
-  <!-- Botones de Acción (Espaciados sobre el Bottom Nav) -->
-  <div class="action-deck">
-    <button class="care-btn" onclick="feedAction('🐟', 20)">
-      <span class="ico">🐟</span>
-      <span>Pescado</span>
-    </button>
-    <button class="care-btn" onclick="feedAction('🥛', 12)">
-      <span class="ico">🥛</span>
-      <span>Leche</span>
-    </button>
-    <button class="care-btn" onclick="playLaserAction()">
-      <span class="ico">🎾</span>
-      <span>Jugar</span>
-    </button>
-    <button class="care-btn" onclick="toggleSleepAction()">
-      <span class="ico" id="sleep-btn-icon">🌙</span>
-      <span id="sleep-btn-label">Dormir</span>
-    </button>
-  </div>
-
-  <!-- Navegación Fija Inferior -->
+  <!-- Barra de Navegación Fija -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
       <span class="icon">❤️</span>
@@ -507,19 +518,15 @@
     const dialogue = document.getElementById('pet-dialogue');
     const bowlFood = document.getElementById('bowl-food');
 
-    // 1. Cargar Estado con decaimiento real por tiempo
     async function loadPetState() {
       const { data } = await supabaseClient.from('pet_state').select('*').eq('id', 1).single();
       if (data) {
         pet = { ...pet, ...data };
-
-        // Cálculo de horas desde la última comida para hambre real
         if (data.last_fed_at) {
           const hoursPassed = (new Date() - new Date(data.last_fed_at)) / (1000 * 60 * 60);
-          const hungerLoss = Math.floor(hoursPassed * 4); // Pierde 4% por hora
+          const hungerLoss = Math.floor(hoursPassed * 4);
           pet.hunger = Math.max(5, pet.hunger - hungerLoss);
         }
-
         renderPetUI();
       }
     }
@@ -527,7 +534,6 @@
     function renderPetUI() {
       document.getElementById('pet-title').innerText = `${pet.name} • Nv. ${pet.level}`;
       
-      // Medidores
       document.getElementById('bar-hunger').style.width = `${pet.hunger}%`;
       document.getElementById('txt-hunger').innerText = `${pet.hunger}%`;
 
@@ -544,7 +550,6 @@
         document.getElementById('caretaker-text').innerText = `Atendido por: ${pet.last_action_by}`;
       }
 
-      // Estados de animación
       if (pet.is_sleeping) {
         catElem.className = 'cat-actor sleeping';
         dialogue.innerText = `Zzz... ${pet.name} está durmiendo plácidamente.`;
@@ -561,7 +566,6 @@
       }
     }
 
-    // 2. Dar de comer al plato y animar al gato caminando a comer
     async function feedAction(foodEmoji, gain) {
       if (pet.is_sleeping) {
         dialogue.innerText = 'Shhh... está durmiendo. Despiértalo primero.';
@@ -569,7 +573,6 @@
       }
       if ('vibrate' in navigator) navigator.vibrate(60);
 
-      // Colocar comida en el plato
       bowlFood.innerText = foodEmoji;
       catElem.classList.add('eating');
       dialogue.innerText = `¡Ñam ñam! ${currentOwner} le sirvió ${foodEmoji}`;
@@ -588,7 +591,6 @@
       await savePetToCloud();
     }
 
-    // 3. Acariciar con ronroneo háptico
     async function strokeCat() {
       if (pet.is_sleeping) {
         dialogue.innerText = `Zzz... ${pet.name} ronronea dormido.`;
@@ -596,7 +598,6 @@
         return;
       }
 
-      // Ronroneo háptico realista
       if ('vibrate' in navigator) navigator.vibrate([40, 80, 40, 80, 60]);
 
       dialogue.innerText = `Purrr... ❤️ A ${pet.name} le encantan los mimos de ${currentOwner}.`;
@@ -609,7 +610,6 @@
       await savePetToCloud();
     }
 
-    // 4. Jugar
     async function playLaserAction() {
       if (pet.is_sleeping) {
         dialogue.innerText = 'Está muy cansado para jugar ahora.';
@@ -632,7 +632,6 @@
       await savePetToCloud();
     }
 
-    // 5. Acostar / Despertar
     async function toggleSleepAction() {
       pet.is_sleeping = !pet.is_sleeping;
       if (pet.is_sleeping) {
@@ -664,7 +663,6 @@
       }).eq('id', 1);
     }
 
-    // Sincronización WebSockets instantánea
     supabaseClient.channel('pet-realtime-room')
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'pet_state' }, (payload) => {
         if (payload.new) {
