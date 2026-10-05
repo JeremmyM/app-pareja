@@ -1,16 +1,36 @@
-const CACHE_VERSION = 'v1.0.3';
+// Sube este número cada vez que quieras forzar una actualización en los celulares (v1.0.4, v1.0.5...)
+const CACHE_NAME = 'nosotros-cache-v1.0.4';
 
 self.addEventListener('install', (event) => {
+  // Obliga al Service Worker a instalarse inmediatamente sin esperar
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(clients.claim());
+  // Limpia cualquier caché antigua almacenada en el iPhone o Android
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
+// ESCUCHA DE MENSAJE MANUAL DESDE LA INTERFAZ
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
+});
+
+// (Mantén aquí el resto de tu código de notificaciones push de sw.js)
 self.addEventListener('push', (event) => {
   let payload = { title: 'Nosotros ❤️', body: 'Te acaban de mandar un abrazo' };
-
   if (event.data) {
     try {
       payload = event.data.json();
