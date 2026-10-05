@@ -41,7 +41,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: env(safe-area-inset-top, 38px) 14px calc(env(safe-area-inset-bottom, 15px) + 10px) 14px;
+      /* Margen inferior seguro de 70px para librar la barra de 3 botones de Android */
+      padding: env(safe-area-inset-top, 38px) 14px calc(env(safe-area-inset-bottom, 20px) + 65px) 14px;
     }
 
     /* Barra Superior */
@@ -49,16 +50,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 34px;
+      height: 36px;
       flex-shrink: 0;
     }
     .back-chip {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: #fda4af;
-      padding: 5px 12px;
+      padding: 6px 14px;
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 700;
       text-decoration: none;
       display: flex;
@@ -69,19 +70,19 @@
 
     .quick-tabs {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
     .quick-tab-btn {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 1rem;
       text-decoration: none;
     }
 
@@ -93,7 +94,7 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 14px;
-      padding: 8px 10px;
+      padding: 8px 12px;
       flex-shrink: 0;
       margin-top: 4px;
     }
@@ -105,7 +106,7 @@
     .vital-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 600;
       color: var(--text-muted);
     }
@@ -135,14 +136,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 16px;
-      min-height: 160px;
+      padding-bottom: 14px;
+      min-height: 180px;
     }
 
     .carpet {
       position: absolute;
-      bottom: 8px;
-      width: 210px;
+      bottom: 6px;
+      width: 220px;
       height: 55px;
       background: radial-gradient(ellipse at center, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.3) 70%);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -152,9 +153,9 @@
 
     .food-bowl {
       position: absolute;
-      bottom: 16px;
-      left: 16px;
-      width: 38px;
+      bottom: 14px;
+      left: 18px;
+      width: 40px;
       height: 20px;
       background: #334155;
       border: 2px solid #64748b;
@@ -162,7 +163,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 1rem;
       z-index: 2;
     }
     .food-content {
@@ -172,9 +173,9 @@
 
     .cat-bed {
       position: absolute;
-      bottom: 14px;
-      right: 16px;
-      width: 48px;
+      bottom: 12px;
+      right: 18px;
+      width: 50px;
       height: 24px;
       background: rgba(244, 63, 94, 0.18);
       border: 2px dashed rgba(244, 63, 94, 0.4);
@@ -182,14 +183,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
+      font-size: 1rem;
       z-index: 2;
     }
 
     .cat-actor {
       position: relative;
-      width: 95px;
-      height: 85px;
+      width: 100px;
+      height: 90px;
       z-index: 5;
       cursor: pointer;
       display: flex;
@@ -200,8 +201,8 @@
     .cat-actor:active { transform: scale(0.92); }
 
     .cat-body-shape {
-      width: 72px;
-      height: 64px;
+      width: 76px;
+      height: 68px;
       background: #fdfdfd;
       border-radius: 50% 50% 45% 45%;
       position: relative;
@@ -209,12 +210,12 @@
     }
     .ear {
       position: absolute;
-      top: -10px;
+      top: -11px;
       width: 0;
       height: 0;
-      border-left: 9px solid transparent;
-      border-right: 9px solid transparent;
-      border-bottom: 16px solid #fdfdfd;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 17px solid #fdfdfd;
     }
     .ear.left { left: 6px; transform: rotate(-16deg); }
     .ear.right { right: 6px; transform: rotate(16deg); }
@@ -230,22 +231,22 @@
     }
     .eye {
       position: absolute;
-      top: 24px;
+      top: 26px;
       width: 7px;
       height: 9px;
       background: #1e293b;
       border-radius: 50%;
       animation: catBlink 3.8s infinite;
     }
-    .eye.left { left: 16px; }
-    .eye.right { right: 16px; }
+    .eye.left { left: 18px; }
+    .eye.right { right: 18px; }
     @keyframes catBlink {
       0%, 95%, 100% { transform: scaleY(1); }
       97% { transform: scaleY(0.1); }
     }
     .nose {
       position: absolute;
-      top: 32px;
+      top: 34px;
       left: 50%;
       transform: translateX(-50%);
       width: 5px;
@@ -255,7 +256,7 @@
     }
     .whiskers {
       position: absolute;
-      top: 34px;
+      top: 36px;
       width: 10px;
       height: 1px;
       background: #cbd5e1;
@@ -264,7 +265,7 @@
     .whiskers.right { right: 3px; transform: rotate(-8deg); }
     .tail {
       position: absolute;
-      bottom: 4px;
+      bottom: 5px;
       right: -8px;
       width: 16px;
       height: 6px;
@@ -279,7 +280,7 @@
     }
 
     .cat-actor.sleeping {
-      transform: translate(50px, 4px) scale(0.85);
+      transform: translate(52px, 4px) scale(0.85);
     }
     .cat-actor.sleeping .eye {
       height: 2px !important;
@@ -290,37 +291,37 @@
     .cat-actor.sleeping .tail { animation: none; }
 
     .cat-actor.eating {
-      transform: translate(-48px, 4px) scale(0.9);
+      transform: translate(-50px, 4px) scale(0.9);
     }
 
     .chat-bubble {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 5px 12px;
-      font-size: 0.72rem;
+      padding: 6px 14px;
+      font-size: 0.74rem;
       font-weight: 500;
       color: #e2e8f0;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       max-width: 90%;
       text-align: center;
       z-index: 6;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
-    /* BOTONERA COMPACTA GARANTIZADA SOBRE EL MARGEN */
+    /* BOTONERA ELEVADA: TOTALMENTE VISIBLE SOBRE LOS BOTONES DEL MÓVIL */
     .action-deck {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       width: 100%;
       flex-shrink: 0;
-      margin-top: 4px;
     }
     .care-btn {
       flex: 1;
-      height: 52px;
+      height: 56px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 4px;
       color: var(--text);
       display: flex;
@@ -328,16 +329,17 @@
       align-items: center;
       justify-content: center;
       gap: 2px;
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 600;
       cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.35);
     }
     .care-btn:active {
       transform: scale(0.92);
       border-color: var(--accent);
       background: var(--accent-soft);
     }
-    .care-btn span.ico { font-size: 1.25rem; }
+    .care-btn span.ico { font-size: 1.35rem; }
   </style>
 </head>
 <body>
@@ -350,13 +352,14 @@
         <span>Perfil</span>
       </a>
 
-      <div style="font-size: 0.78rem; font-weight: 700; color: #fda4af;" id="pet-title">
+      <div style="font-size: 0.8rem; font-weight: 700; color: #fda4af;" id="pet-title">
         Mishi • Nv. 1
       </div>
 
       <div class="quick-tabs">
         <a href="index.html" class="quick-tab-btn" title="Toque">❤️</a>
         <a href="pizarra.html" class="quick-tab-btn" title="Pizarra">🎨</a>
+        <a href="perfil.html" class="quick-tab-btn" title="Perfil">👤</a>
       </div>
     </div>
 
@@ -426,7 +429,7 @@
       <div class="carpet"></div>
     </div>
 
-    <!-- 4 Botones de Cuidado que siempre caben -->
+    <!-- 4 Botones de Cuidado elevados sobre los botones de Android -->
     <div class="action-deck">
       <button class="care-btn" onclick="feedAction('🐟', 20)">
         <span class="ico">🐟</span>
