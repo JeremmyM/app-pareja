@@ -335,8 +335,32 @@
       .subscribe();
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').then(() => checkPushStatus());
+  let refreshing = false;
+
+  // Recarga automáticamente la app cuando el nuevo sw.js toma el control
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!refreshing) {
+      refreshing = true;
+      window.location.reload();
     }
+  });
+
+  navigator.serviceWorker.register('sw.js').then((reg) => {
+    // Revisa actualizaciones cada vez que se abre la app
+    reg.update();
+
+    reg.onupdatefound = () => {
+      const installingWorker = reg.installing;
+      installingWorker.onstatechange = () => {
+        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          // Nueva versión detectada, recargará sola
+          console.log('Nueva versión encontrada, actualizando...');
+        }
+      };
+    };
+    checkPushStatus();
+  });
+}
   </script>
 </body>
 </html>

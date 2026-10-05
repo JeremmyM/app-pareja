@@ -1,14 +1,32 @@
+// Cambia este número cada vez que hagas cambios importantes (v1.0.1, v1.0.2...)
+const CACHE_VERSION = 'v1.0.1';
+
 self.addEventListener('install', (event) => {
+  // Obliga al nuevo Service Worker a instalarse sin esperar a que se cierre la app
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(clients.claim());
+  // Toma el control inmediato de todas las ventanas abiertas
+  event.waitUntil(
+    clients.claim().then(() => {
+      // Limpia cachés viejas si existieran
+      return caches.keys().then((keys) => {
+        return Promise.all(
+          keys.map((key) => {
+            if (key !== CACHE_VERSION) {
+              return caches.delete(key);
+            }
+          })
+        );
+      });
+    })
+  );
 });
 
-// Receptor de alertas Push con pantalla apagada
+// NOTIFICACIÓN PUSH CON SONIDO Y VIBRACIÓN NATIVA
 self.addEventListener('push', (event) => {
-  let payload = { title: 'Nosotros ❤️', body: 'Te acaban de mandar un abrazo' };
+  let payload = { title: 'Nosotros ❤️️', body: 'Te acaban de mandar un abrazo' };
 
   if (event.data) {
     try {
@@ -22,12 +40,12 @@ self.addEventListener('push', (event) => {
     body: payload.body,
     icon: 'https://cdn-icons-png.flaticon.com/512/833/833472.png',
     badge: 'https://cdn-icons-png.flaticon.com/512/833/833472.png',
-    // Triple pulso pesado: vibra 600ms, pausa 200ms, vibra 600ms, pausa 200ms, remate 900ms
-    vibrate: [600, 200, 600, 200, 900],
+    // Patrón de vibración estándar de hardware: pulso - pausa - pulso largo
+    vibrate: [500, 150, 500, 150, 800],
     tag: 'touch-alert',
     renotify: true,
     requireInteraction: true,
-    silent: false,
+    silent: false, // Forzar a que use el tono predeterminado del sistema
     data: { url: './' }
   };
 
